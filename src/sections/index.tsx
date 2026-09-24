@@ -1,4 +1,5 @@
-import { lazy, Suspense, useMemo } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
+import ArchitectureDialog from '../components/ArchitectureDialog'
 import BoardFallback from '../components/BoardFallback'
 import { profile as p } from '../constants/profile'
 import { services, steps } from '../constants/services'
@@ -38,11 +39,10 @@ export function Services() {
       {services.map(s => (<article key={s.t} style={{ borderTop: '2px solid var(--silk)', padding: '16px 0' }}>
         <h3 style={{ fontSize: 18 }}>{s.t}</h3><p>{s.d}</p><p><strong>You get:</strong> {s.g}</p></article>))}
       <h3 style={{ fontSize: 18, marginTop: 24 }}>How I work</h3>
-      <ol>{steps.map(s => <li key={s}>{s}</li>)}</ol>
-    </div></section>)
-}
 
 export function Samples() {
+  const [open, setOpen] = useState<string | null>(null)
+  const view = (n: string) => <button className="btn" onClick={() => setOpen(n)}>View architecture</button>
   return (
     <section id="samples" className="wrap" style={{ padding: '48px 20px' }}>
       <h2>Sample builds</h2>
@@ -53,15 +53,15 @@ export function Samples() {
         {s.note && <> <span className="chip">{s.note}</span></>}
         <p>{s.problem}</p><ul>{s.does.map(d => <li key={d}>{d}</li>)}</ul>
         <p style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>{s.tech.map(t => <span className="chip" key={t}>{t}</span>)}</p>
-        {s.github && <a className="btn" href={s.github}>GitHub</a>}{s.demo && <a className="btn" href={s.demo}>Live demo</a>}
+        {view(s.name)} {s.github && <a className="btn" href={s.github}>GitHub</a>}{s.demo && <a className="btn" href={s.demo}>Live demo</a>}
       </article>))}
       <h3>Built projects</h3>
       {built.map(b => (<article key={b.name} style={{ border: '2px solid var(--silk)', padding: 20, margin: '16px 0' }}>
         <h4 className="mono">{b.name}</h4><p>{b.when} · {b.tech}</p>
-        <ul>{b.bullets.map(x => <li key={x}>{x}</li>)}</ul><span className="chip">Private repository</span></article>))}
+        <ul>{b.bullets.map(x => <li key={x}>{x}</li>)}</ul><span className="chip">Private repository</span> {view(b.name)}</article>))}
+      {open && <ArchitectureDialog key={open} name={open} onClose={() => setOpen(null)} />}
     </section>)
 }
-
 export function Experience() {
   return (
     <section className="field"><div className="wrap">

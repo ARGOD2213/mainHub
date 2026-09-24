@@ -10,3 +10,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--copper);outline-off
 .field{background:var(--deep);padding:48px 20px}
 .wrap{max-width:960px;margin:0 auto}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+dialog.arch{background:var(--mask);color:var(--silk);border:2px solid var(--silk);padding:0;width:min(760px,100vw);max-height:100dvh;overflow:auto}
+dialog.arch::backdrop{background:#08281Dcc}
+.flow{list-style:none;margin:16px 0;padding:0}
+.flow>li{position:relative;padding-bottom:20px}
+/* Dashed connector between layers; animation is off under prefers-reduced-motion via the global rule. */
+.flow>li:not(:last-child)::after{content:"";position:absolute;left:12px;bottom:0;height:20px;border-left:2px dashed var(--copper)}
+.nodes{display:flex;flex-wrap:wrap;gap:8px}
+.node{flex:1 1 200px;background:var(--deep);border:2px solid var(--silk);padding:8px 12px}
+.node p{margin:4px 0 0;font-size:14px}
