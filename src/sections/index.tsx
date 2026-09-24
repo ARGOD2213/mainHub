@@ -39,6 +39,10 @@ export function Services() {
       {services.map(s => (<article key={s.t} style={{ borderTop: '2px solid var(--silk)', padding: '16px 0' }}>
         <h3 style={{ fontSize: 18 }}>{s.t}</h3><p>{s.d}</p><p><strong>You get:</strong> {s.g}</p></article>))}
       <h3 style={{ fontSize: 18, marginTop: 24 }}>How I work</h3>
+      <ol>{steps.map(s => <li key={s}>{s}</li>)}</ol>
+    </div></section>)
+}
+
 
 export function Samples() {
   const [open, setOpen] = useState<string | null>(null)
