@@ -1,0 +1,11 @@
+export type Status='Planned'|'In progress'|'Live demo'
+export const samples:{name:string;problem:string;does:string[];tech:string[];status:Status;note?:string;github:string;demo:string}[]=[
+ {name:'ClinicQueue',problem:'A small clinic chain needs bookings and reminders that do not double-book.',does:['Appointment booking API','SMS/email reminders','Admin, doctor and patient roles'],tech:['Spring Boot','PostgreSQL','Redis','SES/SNS'],status:'Planned',github:'',demo:''},
+ {name:'ColdChain Pulse',problem:'A food-delivery startup needs to know when a cold box warms up.',does:['Ingests temperature and humidity readings','Threshold alerts','AI summary of anomalies'],tech:['MQTT','Spring Boot','PostgreSQL','React','Spring AI'],status:'Planned',note:'Uses simulated devices',github:'',demo:''},
+ {name:'FounderDocs',problem:'A team wants answers from internal docs without leaking restricted ones.',does:['Document ingestion and embeddings','Q&A grounded in retrieved text','Retrieval limited by user role'],tech:['Spring AI','pgvector','JWT/RBAC'],status:'Planned',github:'',demo:''},
+ {name:'Feature drop kit',problem:'An existing SaaS or shop backend needs common add-ons without a rewrite.',does:['Coupon engine','Low-stock alerts over Kafka','Webhook receiver with retries'],tech:['Spring Boot','Kafka','Redis'],status:'Planned',github:'',demo:''},
+]
+export const built=[
+ {name:'Digital Library Platform',when:'2025 – Present',tech:'Spring Boot 3, Java 21, React.js, PostgreSQL, Redis, Docker, AWS',bullets:['REST APIs, Spring Data JPA, Flyway migrations, role-based workflows for readers, vendors and admins.','JWT authentication, Redis caching, S3 storage for book files, SES/SNS notifications.','Docker Compose on AWS EC2 with GitHub Actions CI/CD.']},
+ {name:'PolicyDocs RAG Service',when:'2025 – Present',tech:'Spring Boot 3, Spring AI, Java 21, PostgreSQL + pgvector, Redis, Docker, AWS',bullets:['Document ingestion, chunking, embeddings and RAG-based Q&A over policy documents.','pgvector retrieval, conversation context, structured outputs; JWT and RBAC constrain retrieval.','Docker on AWS EC2; grounded responses, no open LLM access.']},
+]
