@@ -24,6 +24,7 @@ type Props = {
   interactive?: boolean
   expandedNode?: string | null
   onNodeSelect?: (id: string | null) => void
+  onNodeHover?: (id: string | null) => void
 }
 
 const DESKTOP_BREAKPOINT = 680
@@ -204,10 +205,10 @@ export default function SystemDiagram({
               role={interactive ? 'button' : undefined}
               aria-label={interactive ? `${point.node.name}. Activate to show details.` : undefined}
               onClick={activate}
-              onMouseEnter={() => interactive && setHoveredNode(point.node.id)}
-              onMouseLeave={() => interactive && setHoveredNode(null)}
-              onFocus={() => interactive && setHoveredNode(point.node.id)}
-              onBlur={() => interactive && setHoveredNode(null)}
+              onMouseEnter={() => { if (interactive) { setHoveredNode(point.node.id); onNodeHover?.(point.node.id) } }}
+              onMouseLeave={() => { if (interactive) { setHoveredNode(null); onNodeHover?.(null) } }}
+              onFocus={() => { if (interactive) { setHoveredNode(point.node.id); onNodeHover?.(point.node.id) } }}
+              onBlur={() => { if (interactive) { setHoveredNode(null); onNodeHover?.(null) } }}
               onKeyDown={event => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
