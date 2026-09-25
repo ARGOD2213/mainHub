@@ -116,6 +116,7 @@ export default function SystemDiagram({
   interactive = false,
   expandedNode = null,
   onNodeSelect,
+  onNodeHover,
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(760)
