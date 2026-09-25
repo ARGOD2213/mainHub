@@ -1,4 +1,5 @@
 import {useEffect,useRef,useState} from 'react'
+import type {PointerEvent} from 'react'
 import {gsap} from 'gsap'
 import type {ProjectTheme} from '../constants/samples'
 import type {Arch} from '../constants/architecture'
@@ -61,7 +62,7 @@ export default function ProjectModal({project,architecture,trigger,onClose}:{pro
     }else{gsap.to(p,{opacity:0,duration:reduced?.15:.15,onComplete:finish})}
   }
 
-  const onGrabPointerDown=(e:React.PointerEvent)=>{dragStart.current=e.clientY;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)}
+  const onGrabPointerDown=(e:PointerEvent)=>{dragStart.current=e.clientY;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)}
   const onGrabPointerMove=(e:React.PointerEvent)=>{if(dragStart.current===null)return;const dy=Math.max(0,e.clientY-dragStart.current);if(panelRef.current)panelRef.current.style.transform=`translateY(${dy}px)`}
   const onGrabPointerUp=(e:React.PointerEvent)=>{if(dragStart.current===null)return;const dy=Math.max(0,e.clientY-dragStart.current);dragStart.current=null;if(panelRef.current)panelRef.current.style.transform='';if(dy>110)close()}
   return <dialog ref={dialogRef} className={`project-dialog project-dialog--${project.theme}`} aria-modal="true" aria-labelledby="project-dialog-title" onClick={e=>{if(e.target===dialogRef.current)close()}}>
