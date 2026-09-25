@@ -1,12 +1,9 @@
 name: build-check
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
   push:
-    branches:
-      - main
-      - portfolio-v3
+    branches: [main, portfolio-v3]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,4 +13,15 @@ jobs:
         with:
           node-version: 20
       - run: npm install --legacy-peer-deps
-      - run: npm run build
+      - id: build
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee build.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+      - if: steps.build.outcome == 'failure'
+        run: exit 1
