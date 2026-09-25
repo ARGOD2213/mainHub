@@ -1,0 +1,2 @@
+import {skills} from '../constants/experience'
+export default function Skills(){return <section id="skills" className="section-dark" data-section-title="Mahindra · Skills"><div className="wrap"><div className="section-heading"><h2>Skills</h2><p>The stack I use across backend delivery and AI application integration.</p></div><div className="skills-grid">{Object.entries(skills).map(([group,value])=><article className="tilt-card" key={group}><span>{group}</span><h3>{value}</h3></article>)}</div></div></section>}
