@@ -1,14 +1,2 @@
-// Empty string = hide that UI element. Never invent a value here.
-export const profile = {
-  name: 'Chintala Mahindra',
-  tagline: 'Java backend engineer. I build the API, the cloud side and the intelligence behind your product.',
-  email: 'chintalamahindra163@gmail.com',
-  phone: '+91 96181 12357',
-  phoneTel: '+919618112357',
-  whatsapp: 'https://wa.me/919618112357?text=Hi%20Mahindra%2C%20I%20saw%20your%20portfolio',
-  github: 'https://github.com/ARGOD2213',
-  linkedin: 'https://in.linkedin.com/in/chintala-mahindra-178306241',
-  resumePdf: '/Chintala_Mahindra_Resume.pdf',
-  calendar: '', // none available: hidden
-  rate: '', // "on request": not shown
-}
+// Empty string hides optional UI. Never invent a value here.
+export const profile={name:'Chintala Mahindra',tagline:'Java backend engineer. I build the API, the cloud side and the intelligence behind your product.',email:'chintalamahindra163@gmail.com',phone:'+91 96181 12357',phoneTel:'+919618112357',whatsapp:'https://wa.me/919618112357?text=Hi%20Mahindra%2C%20I%20saw%20your%20portfolio',github:'https://github.com/ARGOD2213',linkedin:'https://in.linkedin.com/in/chintala-mahindra-178306241',resumePdf:'/Chintala_Mahindra_Resume.pdf',calendar:'',rate:'',replyTime:'Within 1 day',emailjsServiceId:'',emailjsTemplateId:'',emailjsPublicKey:''}
