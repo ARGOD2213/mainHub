@@ -19,3 +19,30 @@ dialog.arch::backdrop{background:#08281Dcc}
 .nodes{display:flex;flex-wrap:wrap;gap:8px}
 .node{flex:1 1 200px;background:var(--deep);border:2px solid var(--silk);padding:8px 12px}
 .node p{margin:4px 0 0;font-size:14px}
+
+/* --- Restyle v2: bento about, monitor frame, terminal contact --- */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.bento>*{grid-column:span 4}
+@media(min-width:720px){.bento>.b-wide{grid-column:span 2}.bento>.b-narrow{grid-column:span 1}.bento>.b-half{grid-column:span 2}}
+.b-card{background:var(--deep);border:2px solid var(--silk);padding:20px;display:flex;flex-direction:column;justify-content:center;min-height:96px}
+.b-card .b-label{font-family:'Martian Mono',monospace;font-size:12px;letter-spacing:.04em;opacity:.75}
+.b-card .b-value{font-family:'Martian Mono',monospace;font-size:22px;margin-top:6px}
+.b-card.b-accent{background:var(--copper);color:var(--deep);border-color:var(--copper)}
+
+.monitor{border:2px solid var(--silk);border-top-width:14px;background:var(--deep);position:relative;margin-top:12px}
+.monitor::after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:60px;height:10px;background:var(--silk)}
+.monitor-screen{padding:16px}
+
+/* Hover reveal for experience bullets: content is present for screen readers/keyboard at all times, just visually quiet until hovered/focused. */
+.reveal-item{border-top:2px solid var(--silk);padding:12px 0;transition:background-color .2s}
+.reveal-item:hover,.reveal-item:focus-within{background:rgba(210,133,58,0.12)}
+.reveal-item .reveal-extra{max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .25s ease}
+.reveal-item:hover .reveal-extra,.reveal-item:focus-within .reveal-extra{max-height:80px;opacity:1}
+.reveal-item[tabindex]{cursor:default}
+
+.terminal{background:#050f0a;border:2px solid var(--copper);font-family:'Martian Mono',monospace;font-size:13px;padding:16px;max-width:560px}
+.terminal .t-line{color:var(--silk);margin:4px 0}
+.terminal .t-prompt{color:var(--led)}
+.terminal .t-cursor{display:inline-block;width:8px;height:14px;background:var(--led);vertical-align:middle;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.terminal .t-cursor{animation:none}}
