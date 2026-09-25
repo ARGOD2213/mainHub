@@ -1,54 +1,14 @@
-import { Canvas, useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { Group } from 'three'
+import {Canvas,useFrame,useThree} from '@react-three/fiber'
+import {EffectComposer,Bloom} from '@react-three/postprocessing'
+import {useEffect,useMemo,useRef,useState} from 'react'
+import * as THREE from 'three'
 
-const reduce = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
-
-function Board() {
-  const g = useRef<Group>(null)
-  const [on, setOn] = useState(reduce)
-  const [lit, setLit] = useState(reduce ? 99 : 0)
-  const tokens = useMemo(() => {
-    const styles = getComputedStyle(document.documentElement)
-    return {
-      bg0: styles.getPropertyValue('--bg-0').trim(),
-      bg2: styles.getPropertyValue('--bg-2').trim(),
-      ivory: styles.getPropertyValue('--ink-0').trim(),
-      copper: styles.getPropertyValue('--accent-copper').trim(),
-      ice: styles.getPropertyValue('--accent-ice').trim(),
-    }
-  }, [])
-
-  useEffect(() => {
-    if (reduce) return
-    const t = [setTimeout(() => setOn(true), 500)]
-    for (let i = 1; i <= 6; i++) t.push(setTimeout(() => setLit(i), 900 + i * 250))
-    return () => t.forEach(clearTimeout)
-  }, [])
-
-  useFrame((_, dt) => { if (g.current && !reduce) g.current.rotation.y += dt * 0.25 })
-
-  // Fixed pseudo-random nodes: Math.random would reshuffle on every render.
-  const nodes = useMemo(() => Array.from({ length: 24 }, (_, i) => [Math.sin(i * 12.9898) * 2.2, 1.2 + (i % 6) * 0.35, Math.cos(i * 78.233) * 1.4] as const), [])
-
-  return (
-    <group ref={g} rotation={[0.5, 0.4, 0]}>
-      <mesh><boxGeometry args={[3, 0.12, 2]} /><meshStandardMaterial color={tokens.bg2} /></mesh>
-      {Array.from({ length: 6 }, (_, i) => (
-        <mesh key={i} position={[-0.3, 0.08, -0.8 + i * 0.32]}>
-          <boxGeometry args={[2.2, 0.02, 0.05]} />
-          <meshStandardMaterial color={lit > i ? tokens.copper : tokens.bg0} />
-        </mesh>))}
-      <mesh position={[0.4, 0.15, 0]}><boxGeometry args={[0.7, 0.16, 0.7]} /><meshStandardMaterial color={tokens.bg0} /></mesh>
-      <mesh position={[1.2, 0.2, 0.7]}><sphereGeometry args={[0.08]} /><meshStandardMaterial color={on ? tokens.ice : tokens.bg0} emissive={on ? tokens.ice : tokens.bg0} /></mesh>
-      {nodes.map((p, i) => <mesh key={i} position={[...p]}><sphereGeometry args={[0.04]} /><meshBasicMaterial color={tokens.ivory} /></mesh>)}
-    </group>)
-}
-
-export default function BoardScene() {
-  return (
-    <Canvas dpr={[1, 1.5]} camera={{ position: [0, 1.5, 6], fov: 40 }} aria-hidden>
-      <ambientLight intensity={0.9} /><directionalLight position={[3, 5, 2]} intensity={1.2} />
-      <Board />
-    </Canvas>)
-}
+const reduce=typeof matchMedia!=='undefined'&&matchMedia('(prefers-reduced-motion: reduce)').matches
+const mobile=typeof matchMedia!=='undefined'&&matchMedia('(hover: none)').matches
+const traceDefs=[[[ -1.2,.08,-.7],[-.4,.1,-.7],[.2,.12,-.25]],[[ -1.1,.08,.55],[-.45,.1,.55],[.45,.12,.25],[1.2,.14,.55]],[[ .1,.1,-.75],[.55,.12,-.2],[1.1,.16,-.1]],[[ -.15,.11,.7],[.35,.14,.8],[1.1,.16,.45]]]
+function curveFor(def:number[][]){return new THREE.CatmullRomCurve3(def.map(p=>new THREE.Vector3(p[0],p[1],p[2])))}
+function Trace({curve,progress}:{curve:THREE.CatmullRomCurve3;progress:number}){const ref=useRef<THREE.TubeGeometry>(null);useEffect(()=>{if(ref.current){const count=ref.current.index?.count??0;ref.current.setDrawRange(0,Math.floor(count*progress))}},[progress]);return <mesh><tubeGeometry ref={ref} args={[curve,48,.018,6,false]}/><meshStandardMaterial color="var(--copper)" emissive="var(--copper)" emissiveIntensity={.15}/></mesh>}
+function Packet({curve,delay}:{curve:THREE.CatmullRomCurve3;delay:number}){const ref=useRef<THREE.Mesh>(null);useFrame(({clock})=>{if(!ref.current||reduce)return;const t=Math.min(1,Math.max(0,(clock.elapsedTime-delay)/1.1));const e=t*t*(3-2*t);ref.current.position.copy(curve.getPointAt(e));ref.current.scale.setScalar(t>0&&t<1?1:0)});return <mesh ref={ref}><sphereGeometry args={[.045,8,8]}/><meshBasicMaterial color="var(--signal)"/></mesh>}
+function Board(){const group=useRef<THREE.Group>(null);const [phase,setPhase]=useState(reduce?1:0);const [drag,setDrag]=useState(false);const curves=useMemo(()=>traceDefs.map(curveFor),[]);const nodes=useMemo(()=>Array.from({length:mobile?12:24},(_,i)=>new THREE.Vector3(Math.sin(i*7.1)*2.1,1.05+(i%6)*.28,Math.cos(i*4.7)*1.3)),[]);useEffect(()=>{if(reduce){setPhase(1);return}const timers=[setTimeout(()=>setPhase(.2),300),setTimeout(()=>setPhase(.45),900),setTimeout(()=>setPhase(.7),1500),setTimeout(()=>setPhase(1),2400)];return()=>timers.forEach(clearTimeout)},[]);useFrame((_,dt)=>{if(group.current&&!reduce){group.current.rotation.y+=(drag?0:dt*.05);group.current.position.y=Math.sin(performance.now()*.00035)*.015}});return <group ref={group} rotation={[.28,.2,0]}><mesh><boxGeometry args={[3,.12,2]}/><meshStandardMaterial color="var(--solder)"/></mesh><mesh position={[.35,.13,0]}><boxGeometry args={[.7,.14,.65]}/><meshStandardMaterial color="var(--deep)"/></mesh><mesh position={[1.15,.22,.62]}><sphereGeometry args={[.07,12,12]}/><meshBasicMaterial color="var(--signal)"/></mesh>{curves.map((c,i)=><Trace key={i} curve={c} progress={Math.max(0,Math.min(1,(phase-.2-i*.06)/.55))}/>)}{curves.slice(0,3).map((c,i)=><Packet key={'p'+i} curve={c} delay={1.4+i*.18}/>) }{nodes.map((n,i)=><mesh key={i} position={n}><sphereGeometry args={[.035,6,6]}/><meshBasicMaterial color="var(--ink)"/></mesh>)}{nodes.slice(0,10).map((n,i)=><line key={'l'+i}><bufferGeometry><bufferAttribute attach="attributes-position" args={[new Float32Array([.8,.2,.4,n.x,n.y,n.z]),3]}/></bufferGeometry><lineBasicMaterial color="var(--ink)" transparent opacity={phase*.22}/></line>)}</group>}
+function Scene(){const {camera}=useThree();useEffect(()=>{const onScroll=()=>{const y=window.scrollY;camera.position.x=THREE.MathUtils.clamp(y/window.innerHeight*.12,-.2,.2);camera.position.y=1.5+THREE.MathUtils.clamp(y/window.innerHeight*.4,-.4,.4)};window.addEventListener('scroll',onScroll,{passive:true});return()=>window.removeEventListener('scroll',onScroll)},[camera]);return <><ambientLight intensity={1.1}/><directionalLight position={[3,5,2]} intensity={1.2}/><Board/>{!mobile&&!reduce&&<EffectComposer><Bloom intensity={.35} luminanceThreshold={.75} mipmapBlur/></EffectComposer>}</>}
+export default function BoardScene(){return <Canvas dpr={[1,1.5]} camera={{position:[0,1.5,6],fov:40}} frameloop="always" onPointerDown={()=>{}}><Scene/></Canvas>}
