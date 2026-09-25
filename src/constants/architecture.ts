@@ -7,6 +7,7 @@ export type Node = {
   name: string
   note: string
   parentIds?: string[]
+  edgeLabels?: Record<string, string>
 }
 
 export type Layer = {
@@ -69,7 +70,7 @@ export const architectures: Record<string, Arch> = {
         row: 1,
         nodes: [
           { id: 'spring-api', name: 'Spring Boot 3 API', note: 'REST with JWT. Roles: admin, doctor, patient.' },
-          { id: 'reminder-scheduler', name: 'Reminder scheduler', note: 'Finds due reminders and hands them to the notifier.', parentIds: ['spring-api'] },
+          { id: 'reminder-scheduler', name: 'Reminder scheduler', note: 'Finds due reminders and hands them to the notifier.', parentIds: ['spring-api'], edgeLabels: { 'spring-api': 'runs inside the same service.' } },
         ],
       },
       {
