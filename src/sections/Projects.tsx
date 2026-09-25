@@ -1,51 +1,6 @@
-import { useState } from 'react'
-import { architectures, banner } from '../constants/architecture'
-import { built, samples } from '../constants/samples'
+import {useState} from 'react'
+import {architectures} from '../constants/architecture'
+import {built,samples} from '../constants/samples'
 import ArchitectureDialog from '../components/ArchitectureDialog'
 import SystemDiagram from '../components/SystemDiagram'
-
-export default function Projects() {
-  const [open, setOpen] = useState<string | null>(null)
-  const allSamples = samples.map(sample => ({ ...sample, architecture: architectures[sample.name]! }))
-  const allBuilt = built.map(project => ({ ...project, architecture: architectures[project.name]! }))
-
-  return (
-    <section id="projects" className="section-dark projects-section">
-      <div className="wrap">
-        <div className="section-heading">
-          <div><p className="eyebrow">04 / SYSTEMS</p><h2>Projects as engineering systems</h2></div>
-          <p>Open a topology to inspect the request path, data dependencies and release pipeline. Planned work is labeled as design; built work stays tied to the stated stack.</p>
-        </div>
-
-        <div className="project-grid">
-          {allSamples.map(project => (
-            <article className="project-card" key={project.name}>
-              <div className="project-card-head">
-                <div><span className="project-number">DESIGN</span><h3>{project.name}</h3></div>
-                <span className="status-chip">{project.status}</span>
-              </div>
-              <p>{project.problem}</p>
-              <div className="project-tags">{project.tech.map(item => <span key={item}>{item}</span>)}</div>
-              <div className="project-diagram"><SystemDiagram architecture={project.architecture} size="preview" /></div>
-              <div className="project-card-foot"><span>{banner(project.architecture.kind)}</span><button className="btn" type="button" onClick={() => setOpen(project.name)}>View topology</button></div>
-            </article>
-          ))}
-
-          {allBuilt.map(project => (
-            <article className="project-card project-card--built" key={project.name}>
-              <div className="project-card-head">
-                <div><span className="project-number">BUILT</span><h3>{project.name}</h3></div>
-                <span className="status-chip">Private repository</span>
-              </div>
-              <p>{project.when} · {project.tech}</p>
-              <ul className="project-bullets">{project.bullets.map(item => <li key={item}>{item}</li>)}</ul>
-              <div className="project-diagram"><SystemDiagram architecture={project.architecture} size="preview" /></div>
-              <div className="project-card-foot"><span>Architecture follows the stated project stack.</span><button className="btn" type="button" onClick={() => setOpen(project.name)}>View topology</button></div>
-            </article>
-          ))}
-        </div>
-      </div>
-      {open && <ArchitectureDialog key={open} name={open} onClose={() => setOpen(null)} />}
-    </section>
-  )
-}
+export default function Projects(){const [open,setOpen]=useState<string|null>(null);return <section id="projects" className="section-dark projects-section" data-section-title="Mahindra · Samples"><div className="wrap"><div className="section-heading"><div><h2>Sample builds</h2></div><p>Self-initiated designs, not client work. Each topology shows how I would structure the product before implementation.</p></div><div className="sample-grid">{samples.map(s=><article className="project-card" key={s.name}><div className="project-card-head"><div><span className="sample-label">Sample build · not client work</span><h3>{s.name}</h3></div><span className="status-chip">{s.status}</span></div><p>{s.problem}</p>{s.note&&<p className="sample-note">{s.note}</p>}<ul className="project-bullets">{s.does.map(x=><li key={x}>{x}</li>)}</ul><div className="project-tags">{s.tech.map(x=><span key={x}>{x}</span>)}</div><SystemDiagram architecture={architectures[s.name]!} size="preview"/><div className="project-card-foot"><span>Architecture sketch</span><button className="btn" type="button" onClick={()=>setOpen(s.name)}>View topology</button></div></article>)}</div><h3 className="built-heading">Built projects</h3><div className="built-grid">{built.map(s=><article className="project-card project-card--built" key={s.name}><div className="project-card-head"><div><span className="sample-label">Built project</span><h3>{s.name}</h3></div><span className="status-chip">Private repository</span></div><p>{s.when} · {s.tech}</p><ul className="project-bullets">{s.bullets.map(x=><li key={x}>{x}</li>)}</ul><SystemDiagram architecture={architectures[s.name]!} size="preview"/><div className="project-card-foot"><span>Resume-backed system</span><button className="btn" type="button" onClick={()=>setOpen(s.name)}>View topology</button></div></article>)}</div></div>{open&&<ArchitectureDialog name={open} onClose={()=>setOpen(null)}/>}</section>}
