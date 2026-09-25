@@ -177,7 +177,7 @@ export default function SystemDiagram({
         aria-label={`${size === 'full' ? 'Full' : 'Preview'} architecture topology`}
       >
         {edges.map((edge, index) => (
-          <g key={`${edge.parent.node.id}-${edge.child.node.id}-${index}`}>
+          <g key={`${edge.parent.node.id}-${edge.child.node.id}-${index}`} className={connectedEdge(edge) ? "diagram-edge is-connected" : "diagram-edge is-muted"}>
             <path className={interactive ? 'flow-path' : 'topology-path'} d={connectorPath(edge.parent, edge.child)} fill="none" stroke="var(--copper)" strokeWidth="2" />
             {edge.label && (
               <text
