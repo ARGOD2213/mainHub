@@ -207,14 +207,14 @@ export const architectures: Record<string, Arch> = {
         nodes: [
           { id: 'coupon-engine', name: 'Coupon engine', note: 'Rules and redemption limits.', parentIds: ['redis'] },
           { id: 'stock-alert-consumer', name: 'Stock alert consumer', note: 'Reads stock events and flags low inventory.', parentIds: ['kafka'] },
-          { id: 'webhook-receiver', name: 'Webhook receiver', note: 'Accepts events and processes them asynchronously.', parentIds: ['kafka'] },
+          { id: 'webhook-receiver', name: 'Webhook receiver', note: 'Accepts events and processes them asynchronously.' },
         ],
       },
       {
         label: 'Messaging and cache',
         row: 1,
         nodes: [
-          { id: 'kafka', name: 'Kafka', note: 'Stock and webhook events.' },
+          { id: 'kafka', name: 'Kafka', note: 'Stock and webhook events.', parentIds: ['webhook-receiver'] },
           { id: 'redis', name: 'Redis', note: 'Atomic redemption counters.' },
         ],
       },
