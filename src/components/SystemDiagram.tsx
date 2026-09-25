@@ -118,6 +118,7 @@ export default function SystemDiagram({
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(760)
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null)
 
   useEffect(() => {
     const host = hostRef.current
@@ -136,6 +137,8 @@ export default function SystemDiagram({
     [architecture, mobile, width],
   )
   const edges = useMemo(() => buildEdges(points), [points])
+  const activeNode = hoveredNode ?? expandedNode
+  const connectedEdge = (edge: Edge) => !activeNode || edge.parent.node.id === activeNode || edge.child.node.id === activeNode
 
   useEffect(() => {
     if (import.meta.env.DEV) {
@@ -201,6 +204,10 @@ export default function SystemDiagram({
               role={interactive ? 'button' : undefined}
               aria-label={interactive ? `${point.node.name}. Activate to show details.` : undefined}
               onClick={activate}
+              onMouseEnter={() => interactive && setHoveredNode(point.node.id)}
+              onMouseLeave={() => interactive && setHoveredNode(null)}
+              onFocus={() => interactive && setHoveredNode(point.node.id)}
+              onBlur={() => interactive && setHoveredNode(null)}
               onKeyDown={event => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault()
