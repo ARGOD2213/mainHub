@@ -5,7 +5,7 @@ import type {ProjectTheme} from '../constants/samples'
 import type {Arch} from '../constants/architecture'
 import SystemDiagram from './SystemDiagram'
 
-type Project={name:string;problem:string;bullets:string[];stack:{label:string;items:string[]}[];decisions:string[];theme:ProjectTheme;github?:string;demo?:string;status?:string;note?:string;when?:string;tech?:string}
+type Project={name:string;problem?:string;bullets:string[];stack:{label:string;items:string[]}[];decisions:string[];theme:ProjectTheme;github?:string;demo?:string;status?:string;note?:string;when?:string;tech?:string}
 const icons:Record<ProjectTheme,string>={api:'REST',realtime:'LIVE',ai:'RAG',kit:'KIT'}
 
 export default function ProjectModal({project,architecture,trigger,onClose}:{project:Project;architecture:Arch;trigger:HTMLElement|null;onClose:()=>void}){
