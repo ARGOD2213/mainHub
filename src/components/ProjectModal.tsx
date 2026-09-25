@@ -14,6 +14,7 @@ export default function ProjectModal({project,architecture,trigger,onClose}:{pro
   const closeRef=useRef<HTMLButtonElement>(null)
   const previousFocus=useRef<HTMLElement|null>(null)
   const [expandedNode,setExpandedNode]=useState<string|null>(null)
+  const [hoveredNode,setHoveredNode]=useState<string|null>(null)
   const dragStart=useRef<number|null>(null)
   const reduced=typeof window!=='undefined'&&window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -75,7 +76,7 @@ export default function ProjectModal({project,architecture,trigger,onClose}:{pro
       <div className="project-modal-body">
         <section className="modal-section modal-intro"><p className="eyebrow">PROBLEM</p><p>{project.problem??project.when}</p>{project.note&&<p className="sample-note">{project.note}</p>}</section>
         <section className="modal-section modal-stagger"><p className="eyebrow">WHAT IT DOES</p><ul>{project.bullets.map(x=><li key={x}>{x}</li>)}</ul></section>
-        <section className="modal-section modal-stagger"><div className="modal-section-head"><p className="eyebrow">ARCHITECTURE</p><span>Hover or focus a node</span></div><SystemDiagram architecture={architecture} size="full" interactive expandedNode={expandedNode} onNodeSelect={setExpandedNode}/>{expandedNode&&<div className="modal-node-caption" aria-live="polite"><span>SELECTED NODE</span><strong>{architecture.layers.flatMap(layer=>layer.nodes).find(n=>n.id===expandedNode)?.name}</strong><p>{architecture.layers.flatMap(layer=>layer.nodes).find(n=>n.id===expandedNode)?.note}</p></div>}</section>
+        <section className="modal-section modal-stagger"><div className="modal-section-head"><p className="eyebrow">ARCHITECTURE</p><span>Hover or focus a node</span></div><SystemDiagram architecture={architecture} size="full" interactive expandedNode={expandedNode} onNodeSelect={setExpandedNode} onNodeHover={setHoveredNode}/>{(hoveredNode||expandedNode)&&<div className="modal-node-caption" aria-live="polite"><span>SELECTED NODE</span><strong>{architecture.layers.flatMap(layer=>layer.nodes).find(n=>n.id===(hoveredNode||expandedNode))?.name}</strong><p>{architecture.layers.flatMap(layer=>layer.nodes).find(n=>n.id===(hoveredNode||expandedNode))?.note}</p></div>}</section>
         <section className="modal-section modal-stagger"><p className="eyebrow">STACK</p><div className="stack-groups">{project.stack.map(group=><div className="stack-group" key={group.label}><strong>{group.label}</strong><div>{group.items.length?group.items.map(x=><span className="project-tags" key={x}>{x}</span>):<span className="stack-empty">—</span>}</div></div>)}</div></section>
         <section className="modal-section modal-stagger"><p className="eyebrow">DECISIONS / DESIGN INTENT</p><ul>{project.decisions.map(x=><li key={x}>{x}</li>)}</ul></section>
         {(project.github||project.demo)&&<section className="modal-section modal-stagger"><p className="eyebrow">LINKS</p><div className="hero-actions">{project.github&&<a className="btn" href={project.github} target="_blank" rel="noreferrer">GitHub</a>}{project.demo&&<a className="btn" href={project.demo} target="_blank" rel="noreferrer">Live demo</a>}</div></section>}
