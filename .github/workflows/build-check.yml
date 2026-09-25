@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - portfolio-v3
 jobs:
   build:
     runs-on: ubuntu-latest
