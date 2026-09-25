@@ -64,7 +64,7 @@ export default function ProjectModal({project,architecture,trigger,onClose}:{pro
   }
 
   const onGrabPointerDown=(e:PointerEvent)=>{dragStart.current=e.clientY;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)}
-  const onGrabPointerMove=(e:React.PointerEvent)=>{if(dragStart.current===null)return;const dy=Math.max(0,e.clientY-dragStart.current);if(panelRef.current)panelRef.current.style.transform=`translateY(${dy}px)`}
+  const onGrabPointerMove=(e:PointerEvent)=>{if(dragStart.current===null)return;const dy=Math.max(0,e.clientY-dragStart.current);if(panelRef.current)panelRef.current.style.transform=`translateY(${dy}px)`}
   const onGrabPointerUp=(e:React.PointerEvent)=>{if(dragStart.current===null)return;const dy=Math.max(0,e.clientY-dragStart.current);dragStart.current=null;if(panelRef.current)panelRef.current.style.transform='';if(dy>110)close()}
   return <dialog ref={dialogRef} className={`project-dialog project-dialog--${project.theme}`} aria-modal="true" aria-labelledby="project-dialog-title" onClick={e=>{if(e.target===dialogRef.current)close()}}>
     <div ref={panelRef} className="project-modal-panel">
