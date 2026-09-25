@@ -1,7 +1,7 @@
 export type Status='Planned'|'In progress'|'Live demo'
 export type ProjectTheme='api'|'realtime'|'ai'|'kit'
 export type StackGroup={label:'Backend'|'Data'|'Infra'|'AI';items:string[]}
-export type ProjectDetail={theme:ProjectTheme;bullets:string[];stack:StackGroup[];decisions:string[]}
+export type ProjectDetail={problem?:string;theme:ProjectTheme;bullets:string[];stack:StackGroup[];decisions:string[]}
 
 export const samples:(ProjectDetail & {name:string;problem:string;does:string[];tech:string[];status:Status;note?:string;github:string;demo:string})[]=[
 {name:'ClinicQueue',theme:'api',problem:'A small clinic chain needs bookings and reminders that do not double-book.',does:['Appointment booking API','SMS/email reminders','Admin, doctor and patient roles'],tech:['Spring Boot','PostgreSQL','Redis','SES/SNS'],status:'Planned',github:'',demo:'',bullets:['Appointment booking API','SMS/email reminders','Admin, doctor and patient roles'],stack:[{label:'Backend',items:['Spring Boot']},{label:'Data',items:['PostgreSQL','Redis']},{label:'Infra',items:['SES/SNS']},{label:'AI',items:[]}],decisions:['Design intent: keep booking and reminder behavior behind the Spring Boot API.','Design intent: use PostgreSQL for the relational booking data.','Design intent: use Redis where shared fast-access state is useful.']},
