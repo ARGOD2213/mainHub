@@ -34,4 +34,4 @@
 ## Release
 - [ ] Run Lighthouse mobile.
 - [ ] Check the deployed site at 390px and 1440px.
-- [ ] Confirm no fabricated client, testimonial, revenue, user-count, trusted-by, or shipped-real-IoT claims.
+- [ ] Confirm no fabricated work, social proof, revenue, user-count, or shipped-real-IoT claims.
