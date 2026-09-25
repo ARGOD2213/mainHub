@@ -1,48 +1,10 @@
-import { lazy, Suspense, useMemo } from 'react'
+import {lazy,Suspense,useMemo} from 'react'
 import BoardFallback from '../components/BoardFallback'
-import { profile as p } from '../constants/profile'
-
-const BoardScene = lazy(() => import('../components/models/BoardScene'))
-
-export function hasWebGL(doc: Pick<Document, 'createElement'>): boolean {
-  try { return !!(doc.createElement('canvas') as HTMLCanvasElement).getContext('webgl') } catch { return false }
-}
-
-const mailto = (subject: string) => `mailto:${p.email}?subject=${encodeURIComponent(subject)}`
-
-export default function Hero() {
-  const gl = useMemo(() => hasWebGL(document), [])
-  return (
-    <section className="hero wrap">
-      <div className="hero-copy">
-        <p className="eyebrow"><span className="live-dot" aria-hidden /> OPEN TO FREELANCE PROJECTS</p>
-        <h1>{p.name}</h1>
-        <p className="hero-title">Java backend engineer building APIs, cloud systems and controlled AI applications.</p>
-        <p className="hero-description">{p.tagline}</p>
-        <div className="hero-actions">
-          <a className="btn fill" href={mailto('Project enquiry')}>Start a project</a>
-          <a className="btn" href={p.resumePdf} download>Resume</a>
-          <a className="text-link" href="#projects">Explore systems →</a>
-        </div>
-      </div>
-
-      <div className="hero-art" aria-label="Interactive engineering board visualization">
-        <div className="hero-art-label"><span>ENGINEERING ARTIFACT</span><span>WEBGL / 3D</span></div>
-        <div className="hero-canvas">
-          <Suspense fallback={<BoardFallback />}>{gl ? <BoardScene /> : <BoardFallback />}</Suspense>
-        </div>
-        <div className="hero-art-footer">
-          <span>JAVA / SPRING / AWS / AI</span>
-          <span>01</span>
-        </div>
-      </div>
-
-      <div className="hero-metrics">
-        <div><span>FOCUS</span><strong>Backend + AI integration</strong></div>
-        <div><span>STACK</span><strong>Java 21 · Spring Boot 3</strong></div>
-        <div><span>DATA</span><strong>PostgreSQL · Redis · Kafka</strong></div>
-        <div className="metric-accent"><span>STATUS</span><strong>Available</strong></div>
-      </div>
-    </section>
-  )
-}
+import {profile as p} from '../constants/profile'
+const BoardScene=lazy(()=>import('../components/models/BoardScene'))
+export function hasWebGL(doc:Pick<Document,'createElement'>){try{return !!(doc.createElement('canvas') as HTMLCanvasElement).getContext('webgl')}catch{return false}}
+const mailto=(s:string)=>`mailto:${p.email}?subject=${encodeURIComponent(s)}`
+export default function Hero(){const gl=useMemo(()=>hasWebGL(document),[]);return <section id="home" className="hero wrap" data-section-title="Mahindra · Home">
+<div className="hero-copy"><div className="availability"><span className="live-dot" aria-hidden/> Open to freelance projects</div><h1>{p.name}</h1><p className="hero-title">Java backend engineer. I build the API, the cloud side and the intelligence behind your product.</p><p className="hero-description">For founders and small teams: MVP backends, product features, document-aware AI and device-to-dashboard systems.</p><div className="hero-actions"><a className="btn fill" href={mailto('Project enquiry')}>Email me</a><a className="btn" href={p.whatsapp}>WhatsApp me</a><a className="btn" href="#projects">See sample builds</a></div><p className="reply-note">Usually replies within {p.replyTime.toLowerCase()}.</p></div>
+<div className="hero-art" aria-label="Interactive procedural PCB visualization"><div className="hero-art-label"><span>BOARD / SIGNAL PATH</span><span>WEBGL</span></div><div className="hero-canvas"><Suspense fallback={<BoardFallback/>}>{gl?<BoardScene/>:<BoardFallback/>}</Suspense></div><div className="hero-art-footer"><span>API / CLOUD / AI / IOT</span><span>LIVE BOARD</span></div></div>
+<div className="hero-metrics"><div><span>CORE</span><strong>Java + Spring Boot</strong></div><div><span>AI</span><strong>RAG · embeddings · access control</strong></div><div><span>INFRA</span><strong>AWS · Redis · Kafka</strong></div><div><span>RESPONSE</span><strong>{p.replyTime}</strong></div></div></section>}
