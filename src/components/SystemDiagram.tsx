@@ -172,17 +172,9 @@ export default function SystemDiagram({
         role={interactive ? 'group' : 'img'}
         aria-label={`${size === 'full' ? 'Full' : 'Preview'} architecture topology`}
       >
-        <defs>
-          <linearGradient id="diagram-flow" x1="0" x2="1">
-            <stop offset="0%" stopColor="var(--accent-copper)" />
-            <stop offset="55%" stopColor="var(--accent-violet)" />
-            <stop offset="100%" stopColor="var(--accent-ice)" />
-          </linearGradient>
-        </defs>
-
         {edges.map((edge, index) => (
           <g key={`${edge.parent.node.id}-${edge.child.node.id}-${index}`}>
-            <path className={interactive ? 'flow-path' : 'topology-path'} d={connectorPath(edge.parent, edge.child)} fill="none" stroke="url(#diagram-flow)" strokeWidth="2" />
+            <path className={interactive ? 'flow-path' : 'topology-path'} d={connectorPath(edge.parent, edge.child)} fill="none" stroke="var(--copper)" strokeWidth="2" />
             {edge.label && (
               <text
                 className="edge-label"
