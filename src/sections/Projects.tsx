@@ -6,8 +6,8 @@ import SystemDiagram from '../components/SystemDiagram'
 
 export default function Projects() {
   const [open, setOpen] = useState<string | null>(null)
-  const allSamples = samples.map(sample => ({ ...sample, architecture: architectures[sample.name] }))
-  const allBuilt = built.map(project => ({ ...project, architecture: architectures[project.name] }))
+  const allSamples = samples.map(sample => ({ ...sample, architecture: architectures[sample.name]! }))
+  const allBuilt = built.map(project => ({ ...project, architecture: architectures[project.name]! }))
 
   return (
     <section id="projects" className="section-dark projects-section">
