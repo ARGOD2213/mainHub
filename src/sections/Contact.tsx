@@ -1,35 +1,4 @@
-import { profile as p } from '../constants/profile'
-
-const mailto = (subject: string) => `mailto:${p.email}?subject=${encodeURIComponent(subject)}`
-
-export default function Contact() {
-  const intents = ['Feature sprint', 'New MVP', 'AI assistant', 'IoT project', 'Something else']
-  return (
-    <section id="contact" className="contact-section">
-      <div className="wrap contact-grid">
-        <div>
-          <p className="eyebrow">06 / CONTACT</p>
-          <h2>Tell me what you are building.</h2>
-          <p className="lead">What helps me quote fast: what exists today, what needs to change, and your deadline.</p>
-          <div className="contact-actions">
-            {intents.map(intent => <a className="btn fill" key={intent} href={mailto(intent)}>{intent}</a>)}
-          </div>
-        </div>
-        <div className="contact-console">
-          <p><span>$</span> whoami</p>
-          <strong>{p.name.toLowerCase().replace(/ /g, '_')}</strong>
-          <p><span>$</span> contact --email --phone</p>
-          <a href={`mailto:${p.email}`}>{p.email}</a>
-          <a href={`tel:${p.phoneTel}`}>{p.phone}</a>
-          <p><span>$</span> <i className="console-cursor" aria-hidden /></p>
-        </div>
-      </div>
-      <div className="wrap contact-links">
-        <a href={p.whatsapp}>WhatsApp ↗</a>
-        <a href={p.github}>GitHub ↗</a>
-        <a href={p.linkedin}>LinkedIn ↗</a>
-        <a href={p.resumePdf} download>Resume PDF ↗</a>
-      </div>
-    </section>
-  )
-}
+import {useState} from 'react'
+import {profile as p} from '../constants/profile'
+const mailto=(s:string)=>`mailto:${p.email}?subject=${encodeURIComponent(s)}`
+export default function Contact(){const [intent,setIntent]=useState('Feature sprint');const [copied,setCopied]=useState('');const copy=(label,value)=>{navigator.clipboard?.writeText(value);setCopied(label);window.setTimeout(()=>setCopied(''),1600)};return <section id="contact" className="contact-section" data-section-title="Mahindra · Contact"><div className="wrap contact-grid"><div><h2>Let’s build the next useful thing.</h2><p className="lead">What helps me quote fast: what you are building, what exists today, and your deadline.</p><div className="intent-list">{['Feature sprint','New MVP','AI assistant','IoT project','Something else'].map(x=><button className={intent===x?'intent is-active':'intent'} key={x} onClick={()=>setIntent(x)}>{x}</button>)}</div></div><div className="contact-console">{[['Email',p.email,'email'],['Phone',p.phone,'phone'],['WhatsApp','Open chat','whatsapp'],['GitHub','ARGOD2213','github'],['LinkedIn','Profile','linkedin'],['Resume PDF','Open PDF','resume']].map(([label,value,key])=><div className="contact-row" key={key}><span>{label}</span>{key==='email'?<a href={mailto(intent)}>{value}</a>:key==='phone'?<a href={`tel:${p.phoneTel}`}>{value}</a>:key==='whatsapp'?<a href={p.whatsapp}>{value}</a>:key==='github'?<a href={p.github}>{value}</a>:key==='linkedin'&&p.linkedin?<a href={p.linkedin}>{value}</a>:key==='resume'&&p.resumePdf?<a href={p.resumePdf} download>{value}</a>:<span>{value}</span>}{['email','phone','whatsapp'].includes(key)&&<button className="copy-btn" type="button" onClick={()=>copy(key,key==='email'?p.email:key==='phone'?p.phone:p.phoneTel)}>{copied===key?'Copied':'Copy'}</button>}</div>)}<div className="contact-row"><span>Reply time</span><strong>{p.replyTime}</strong></div></div></div><div className="wrap direct-form"><p>Direct email is available now. The web form stays hidden until a provider is configured.</p></div></section>}
