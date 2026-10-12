@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Chintala Mahindra — Resume</title>
+<style>
+  @font-face { font-family: 'BSD'; src: url('../node_modules/@fontsource/big-shoulders-display/files/big-shoulders-display-latin-900-normal.woff2') format('woff2'); font-weight: 900; }
+  @font-face { font-family: 'BSD'; src: url('../node_modules/@fontsource/big-shoulders-display/files/big-shoulders-display-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+  @font-face { font-family: 'Archivo'; src: url('../node_modules/@fontsource/archivo/files/archivo-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+  @font-face { font-family: 'Archivo'; src: url('../node_modules/@fontsource/archivo/files/archivo-latin-500-normal.woff2') format('woff2'); font-weight: 500; }
+  @font-face { font-family: 'Archivo'; src: url('../node_modules/@fontsource/archivo/files/archivo-latin-600-normal.woff2') format('woff2'); font-weight: 600; }
+  @font-face { font-family: 'Archivo'; src: url('../node_modules/@fontsource/archivo/files/archivo-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+  @font-face { font-family: 'JBM'; src: url('../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2') format('woff2'); font-weight: 500; }
+  @font-face { font-family: 'Serif'; src: url('../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2') format('woff2'); font-style: italic; }
+
+  :root {
+    --ink: #121217; --ink-2: #1c1c24; --paper: #fbfaf7; --side: #f2efe8;
+    --text: #23222a; --muted: #5d5b66; --faint: #8a8893; --rule: #dedad1;
+    --amber: #e5650f; --amber-soft: #fff1e4; --bone: #f3efe7;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #888; }
+  body { font-family: 'Archivo', sans-serif; color: var(--text); font-size: 8.9pt; line-height: 1.42; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 210mm; height: 297mm; margin: 0 auto 8mm; background: var(--paper); position: relative; overflow: hidden; display: flex; flex-direction: column; break-after: page; }
+  .page:last-child { break-after: auto; margin-bottom: 0; }
+  @media print { html, body { background: none; } .page { margin: 0; } }
+
+  /* header */
+  .hero { background: var(--ink); color: var(--bone); padding: 11mm 13mm 8mm; position: relative; }
+  .hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.6mm; background: linear-gradient(90deg, var(--amber), #ffb02e); }
+  .kicker { font-family: 'JBM', monospace; font-size: 6.6pt; letter-spacing: .32em; color: #ff8a3d; text-transform: uppercase; }
+  .name { font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 40pt; line-height: .86; letter-spacing: .005em; margin: 2.5mm 0 0; text-transform: uppercase; }
+  .name span { color: #ff7a1a; }
+  .role { display: flex; align-items: baseline; gap: 3.5mm; margin-top: 2.8mm; flex-wrap: wrap; }
+  .role b { font-size: 12pt; font-weight: 700; letter-spacing: .01em; }
+  .role span { font-size: 8.8pt; color: #c9c5bd; }
+  .tag-line { position: absolute; right: 13mm; top: 20.5mm; font-family: 'Serif', Georgia, serif; font-size: 15pt; color: #ffb02e; }
+  .contact { display: flex; flex-wrap: wrap; gap: 1.4mm 5mm; margin-top: 4mm; font-family: 'JBM', monospace; font-size: 7pt; color: #c9c5bd; }
+  .contact a { color: inherit; text-decoration: none; }
+  .contact em { font-style: normal; color: #ff8a3d; margin-right: 1.2mm; }
+
+  .slim { background: var(--ink); color: var(--bone); padding: 5mm 13mm 4.5mm; display: flex; justify-content: space-between; align-items: baseline; position: relative; }
+  .slim::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1.2mm; background: linear-gradient(90deg, var(--amber), #ffb02e); }
+  .slim .n { font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 18pt; text-transform: uppercase; }
+  .slim .n span { color: #ff7a1a; }
+  .slim .t { font-family: 'JBM', monospace; font-size: 7pt; color: #c9c5bd; }
+
+  /* body grid */
+  .body { flex: 1; display: grid; grid-template-columns: 1fr 64mm; min-height: 0; align-items: start; }
+  .body > * { min-height: 100%; }
+  .main { padding: 7mm 7mm 8mm 13mm; display: flex; flex-direction: column; gap: 5mm; }
+  .side { background: var(--side); padding: 7mm 10mm 8mm 7mm; display: flex; flex-direction: column; gap: 5mm; border-left: 1px solid var(--rule); }
+
+  h2 { font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 15pt; text-transform: uppercase; letter-spacing: .02em; margin: 0 0 2mm; color: var(--ink); display: flex; align-items: center; gap: 2.5mm; line-height: 1; }
+  h2::before { content: ''; width: 2.6mm; height: 2.6mm; background: var(--amber); border-radius: .6mm; flex: none; }
+  h2 small { font-family: 'JBM', monospace; font-weight: 500; font-size: 6.4pt; letter-spacing: .14em; color: var(--faint); margin-left: auto; }
+  p { margin: 0; }
+  .lede { font-size: 9.6pt; line-height: 1.5; color: var(--text); }
+  .lede strong { color: var(--ink); }
+
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .job-head b { font-size: 10pt; color: var(--ink); }
+  .when { font-family: 'JBM', monospace; font-size: 7pt; color: var(--muted); white-space: nowrap; }
+  .sub { color: var(--muted); font-size: 8.3pt; margin: .4mm 0 1.6mm; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  li { position: relative; padding-left: 3.6mm; margin: .9mm 0; }
+  li::before { content: ''; position: absolute; left: .4mm; top: 1.75mm; width: 1.4mm; height: 1.4mm; border-radius: 50%; background: var(--amber); }
+  li b { color: var(--ink); font-weight: 600; }
+
+  .proj + .proj { margin-top: 2.6mm; padding-top: 2.6mm; border-top: 1px dashed var(--rule); }
+  .tech { font-family: 'JBM', monospace; font-size: 6.6pt; color: var(--amber); margin: .6mm 0 1.2mm; letter-spacing: .02em; }
+  .tag { display: inline-block; font-family: 'JBM', monospace; font-size: 6.2pt; letter-spacing: .1em; padding: .5mm 1.6mm; border-radius: 1mm; background: var(--amber-soft); color: #b44c06; vertical-align: 1px; margin-left: 1.5mm; }
+  .tag.ok { background: #e3f6ef; color: #17795c; }
+
+  .exp-group { margin-bottom: 2.2mm; }
+  .exp-group b { display: block; font-size: 7.9pt; color: var(--ink); letter-spacing: .02em; }
+  .exp-group span { display: block; font-size: 7.7pt; color: var(--muted); line-height: 1.38; }
+
+  .svc { display: grid; gap: 1.8mm; }
+  .svc div b { display: block; font-size: 8pt; color: var(--ink); }
+  .svc div span { font-size: 7.5pt; color: var(--muted); }
+
+  .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 2.6mm; }
+  .case { border: 1px solid var(--rule); border-radius: 2mm; padding: 2.8mm 3mm; background: #fff; }
+  .case .t { font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 12.5pt; text-transform: uppercase; color: var(--ink); line-height: 1; }
+  .case .k { font-family: 'JBM', monospace; font-size: 6.1pt; letter-spacing: .1em; color: var(--amber); margin: .9mm 0 1.2mm; text-transform: uppercase; }
+  .case p { font-size: 7.8pt; color: var(--muted); line-height: 1.4; }
+  .case.wide { grid-column: span 2; display: grid; grid-template-columns: 38mm 1fr; gap: 3mm; align-items: start; }
+
+  .std { display: grid; gap: 1.6mm; }
+  .std div { font-size: 7.7pt; color: var(--muted); line-height: 1.38; }
+  .std b { color: var(--ink); font-weight: 600; }
+
+  .cert b { display: block; font-size: 8pt; color: var(--ink); }
+  .cert span { font-family: 'JBM', monospace; font-size: 6.6pt; color: var(--muted); }
+  .cert + .cert { margin-top: 2mm; }
+
+  .live { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6mm; }
+  .live div { background: var(--ink); color: var(--bone); border-radius: 2mm; padding: 3mm; }
+  .live b { display: block; font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 12pt; text-transform: uppercase; color: #ff8a3d; line-height: 1; margin-bottom: 1.4mm; }
+  .live span { font-size: 7.4pt; color: #c9c5bd; line-height: 1.38; display: block; }
+  .foot { padding: 3.2mm 13mm; background: var(--ink); color: #c9c5bd; font-family: 'JBM', monospace; font-size: 6.6pt; display: flex; justify-content: space-between; }
+  .foot b { color: #ff8a3d; font-weight: 500; }
+  .note { font-size: 7pt; color: var(--faint); margin-top: 1.4mm; }
+</style>
+</head>
+<body>
+
+<!-- ─────────── PAGE 1 ─────────── -->
+<section class="page">
+  <header class="hero">
+    <div class="kicker">Freelance · Remote · AWS Certified · Booking new projects</div>
+    <h1 class="name">Chintala <span>Mahindra</span></h1>
+    <i class="tag-line">From MVP to millions of requests.</i>
+    <div class="role"><b>Full-Stack &amp; Cloud Engineer</b><span>System Design · Spring Boot · React · AWS · Docker · Kubernetes · CI/CD</span></div>
+    <div class="contact">
+      <a href="mailto:chintalamahindra163@gmail.com"><em>✉</em>chintalamahindra163@gmail.com</a>
+      <a href="tel:+919618112357"><em>☏</em>+91 96181 12357 (WhatsApp)</a>
+      <span><em>◎</em>Hyderabad, India · IST (UTC+5:30)</span>
+      <a href="https://main-hub-mu.vercel.app"><em>↗</em>main-hub-mu.vercel.app</a>
+      <a href="https://github.com/ARGOD2213"><em>⌥</em>github.com/ARGOD2213</a>
+      <a href="https://in.linkedin.com/in/chintala-mahindra-178306241"><em>in</em>linkedin.com/in/chintala-mahindra-178306241</a>
+    </div>
+  </header>
+
+  <div class="body">
+    <div class="main">
+      <section>
+        <h2>Profile</h2>
+        <p class="lede">
+          Full-stack and cloud engineer who designs, builds and scales products end to end: <strong>React and Next.js</strong> front ends,
+          <strong>Java 21 / Spring Boot 3</strong> services, and <strong>AWS</strong> infrastructure running on <strong>Docker and Kubernetes</strong>
+          with automated CI/CD. I start from the system design (caching, queues, idempotency, isolation, failure modes) and write the
+          decisions down before the code, so clients know what they are getting, why, and what it will cost to run.
+        </p>
+      </section>
+
+      <section>
+        <h2>What I deliver</h2>
+        <ul>
+          <li><b>Full-stack MVPs</b> taken from idea to production on AWS, built to grow rather than be rewritten at the first customer.</li>
+          <li><b>Scale &amp; performance rescues</b>: load tests that reproduce the pain, query and cache fixes, and a capacity plan for the next 10×.</li>
+          <li><b>Kubernetes &amp; cloud migrations</b>: containerised services on EKS via Terraform and Helm, with zero-downtime cutover.</li>
+          <li><b>CI/CD platforms</b>: GitHub Actions, image scanning, GitOps with Argo CD, canary releases with automatic rollback.</li>
+          <li><b>AI features</b>: permission-aware RAG and document Q&amp;A with citations, cost controls and evals.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Experience</h2>
+        <div class="job-head"><b>Tata Consultancy Services</b><span class="when">AUG 2024 – PRESENT</span></div>
+        <p class="sub">Software Engineer, Java Backend · Hyderabad · Enterprise HRMS &amp; finance microservices</p>
+        <ul>
+          <li>Build and enhance <b>Spring Boot 3 microservices on Java 21</b> for payroll, workforce and finance workflows, with REST APIs and Spring Data JPA over PostgreSQL and SQL Server.</li>
+          <li>Secured employee, HR and admin endpoints with <b>Spring Security, JWT and role-based access control</b>.</li>
+          <li>Added <b>asynchronous event processing</b> and <b>Redis caching</b> for high-frequency payroll and attendance lookups.</li>
+          <li>Integrated <b>Spring AI</b> into existing services for document and policy Q&amp;A, with access control applied to retrieved context.</li>
+          <li>Production debugging and API / database issue resolution across backend services in Agile delivery.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>See it live <small>MAIN-HUB-MU.VERCEL.APP</small></h2>
+        <div class="live">
+          <div><b>Systems Lab</b><span>Interactive scaling model: traffic, autoscaling, caching, queues and replicas, with the bottleneck explained.</span></div>
+          <div><b>6 architectures</b><span>Clickable diagrams with live request traces, scaling stages, decisions and failure modes.</span></div>
+          <div><b>Delivery platform</b><span>CI/CD run with canary and automatic rollback; Docker, Kubernetes, Actions and Terraform configs.</span></div>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="side">
+      <section>
+        <h2>Expertise</h2>
+        <div class="exp-group"><b>SYSTEM DESIGN</b><span>Scalability, caching, queues, idempotency, multi-tenancy, event-driven design, consistency, capacity planning</span></div>
+        <div class="exp-group"><b>BACK END</b><span>Java 21, Spring Boot 3, Spring Security (JWT, OAuth2, RBAC), REST, WebSockets, microservices</span></div>
+        <div class="exp-group"><b>FRONT END</b><span>React, Next.js, TypeScript, Tailwind CSS</span></div>
+        <div class="exp-group"><b>DATA</b><span>PostgreSQL / Aurora, Redis, DynamoDB, pgvector, SQL Server</span></div>
+        <div class="exp-group"><b>AWS</b><span>EKS, EC2, Lambda, RDS, S3, CloudFront, SQS, SNS, IAM, Secrets Manager, CloudWatch</span></div>
+        <div class="exp-group"><b>PLATFORM</b><span>Docker, Kubernetes, Helm, Terraform, Argo CD, GitHub Actions, OpenTelemetry</span></div>
+        <div class="exp-group"><b>AI INTEGRATION</b><span>Spring AI, RAG, embeddings, vector search, LLM APIs, structured outputs</span></div>
+      </section>
+
+      <section>
+        <h2>How I work</h2>
+        <div class="svc">
+          <div><b>1 · Discovery call</b><span>Product, users, pain, deadline.</span></div>
+          <div><b>2 · Design doc &amp; fixed quote</b><span>Diagrams, decisions, trade-offs.</span></div>
+          <div><b>3 · Weekly sprints</b><span>Working demo on staging every week.</span></div>
+          <div><b>4 · Launch</b><span>Load-tested, monitored, rollback rehearsed.</span></div>
+          <div><b>5 · Handover</b><span>Runbooks; you own the repo and AWS account.</span></div>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+  <div class="foot"><span>Interactive architecture diagrams &amp; live scaling lab → <b>main-hub-mu.vercel.app</b></span><span>1 / 2</span></div>
+</section>
+
+<!-- ─────────── PAGE 2 ─────────── -->
+<section class="page">
+  <header class="slim"><div class="n">Chintala <span>Mahindra</span></div><div class="t">Full-Stack &amp; Cloud Engineer · chintalamahindra163@gmail.com · +91 96181 12357</div></header>
+  <div class="body">
+    <div class="main">
+      <section>
+        <h2>System design case studies <small>REFERENCE ARCHITECTURES</small></h2>
+        <p class="sub" style="margin-top:-.6mm">Designs I offer clients, each documented with an interactive diagram, request trace, scaling stages, decisions and failure modes on the portfolio.</p>
+        <div class="cases">
+          <div class="case"><div class="t">TenantForge</div><div class="k">Multi-tenant B2B SaaS</div><p>Tenant isolation enforced by Postgres Row-Level Security; pool-then-silo tenancy via a tenant catalog; per-tenant rate limits in Redis; idempotent Stripe webhooks; KEDA-scaled workers on EKS.</p></div>
+          <div class="case"><div class="t">SwiftCart Flash</div><div class="k">Flash-sale commerce</div><p>Waiting room to shape spikes; atomic Redis inventory with timed reservations so nothing oversells; idempotent checkout and payments; scheduled pre-scaling and k6 rehearsals.</p></div>
+          <div class="case"><div class="t">LedgerLine</div><div class="k">Payments &amp; ledger</div><p>Double-entry, append-only journal; serializable transfers; idempotency keys end to end; transactional outbox for events; daily reconciliation and a WORM audit archive.</p></div>
+          <div class="case"><div class="t">RouteLive</div><div class="k">Real-time tracking &amp; dispatch</div><p>Location stream partitioned by rider; Redis GEO for live dispatch; stateless WebSocket gateways with pub/sub fan-out; PostGIS history; city-level partitioning to scale.</p></div>
+          <div class="case wide"><div><div class="t">DocMind</div><div class="k">Permission-aware RAG</div></div><p>Permission filter inside the vector query so restricted text never reaches the prompt; cite-or-decline answers; semantic cache; queue-based embedding by content hash; per-team token budgets and evals gating prompt changes in CI.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Open source &amp; projects</h2>
+        <div class="proj">
+          <div class="job-head"><b>ARGUS — Event-driven industrial IoT monitoring platform <span class="tag ok">OPEN SOURCE</span></b><span class="when">8 SPRINTS</span></div>
+          <div class="tech">Java 17 · Spring Boot 3.2 · AWS Lambda · SQS FIFO · SNS · DynamoDB · S3 · Athena · Python · github.com/ARGOD2213/ARGUS</div>
+          <ul>
+            <li>Always-on <b>Lambda rule engine</b> fed by SQS FIFO, publishing CRITICAL / WARNING alerts through SNS; alerts stored in DynamoDB with evidence.</li>
+            <li><b>Permit-to-Work workflow</b> with a full state machine, compliance evidence export, shift handover history and nine operator dashboards.</li>
+            <li>Named <b>local predictive ensemble</b> powering machine chat as advice only, with explicit human approval states.</li>
+            <li>Architecture locked by <b>ADRs</b>: zero write path to plant equipment, Athena + S3 for history, edge agent with ring buffer and offline rules; no ECS, ALB or NAT to keep cost lean.</li>
+          </ul>
+        </div>
+        <div class="proj">
+          <div class="job-head"><b>PolicyDocs RAG Service</b><span class="when">2025 – PRESENT</span></div>
+          <div class="tech">Spring Boot 3 · Spring AI · Java 21 · PostgreSQL + pgvector · Redis · Docker · AWS</div>
+          <ul>
+            <li>Document ingestion, chunking, embeddings and <b>RAG-based Q&amp;A</b> over policy documents with structured outputs.</li>
+            <li><b>pgvector</b> semantic retrieval and conversation context; JWT and RBAC constrain what retrieval can return.</li>
+            <li>Containerised with Docker on AWS EC2; grounded answers with no open LLM access.</li>
+          </ul>
+        </div>
+        <div class="proj">
+          <div class="job-head"><b>Digital Library Platform</b><span class="when">2025 – PRESENT</span></div>
+          <div class="tech">Spring Boot 3 · Java 21 · React · PostgreSQL · Redis · S3 · SES/SNS · Docker · AWS</div>
+          <ul>
+            <li>REST APIs with Spring Data JPA and <b>Flyway</b> migrations; role-based workflows for readers, vendors and admins.</li>
+            <li>JWT authentication, <b>Redis caching</b>, S3 storage for book files, SES/SNS notifications.</li>
+            <li>Docker Compose on AWS EC2, deployed by <b>GitHub Actions CI/CD</b>.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <aside class="side">
+      <section>
+        <h2>Standards</h2>
+        <div class="std">
+          <div><b>Infrastructure as code</b> — Terraform for every AWS resource; separate staging and production.</div>
+          <div><b>Delivery</b> — CI on every PR, image and dependency scanning, GitOps with Argo CD, canary or blue-green releases.</div>
+          <div><b>Observability</b> — OpenTelemetry traces, Grafana or CloudWatch dashboards, alerts on SLOs.</div>
+          <div><b>Security</b> — least-privilege IAM roles, Secrets Manager, OWASP checks, encryption at rest and in transit.</div>
+          <div><b>Quality</b> — unit and Testcontainers integration tests, k6 load test before launch, OpenAPI docs.</div>
+          <div><b>Ownership</b> — your GitHub and AWS accounts, ADRs, runbooks for every alert.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Engagements</h2>
+        <div class="svc">
+          <div><b>Fixed scope</b><span>Clear deliverables, fixed quote, paid by milestone.</span></div>
+          <div><b>Sprint based</b><span>Two-week sprints, demo at the end of each.</span></div>
+          <div><b>Retainer</b><span>Reserved monthly hours as a fractional backend engineer.</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Certifications</h2>
+        <div class="cert"><b>AWS Certified Cloud Practitioner</b><span>CLF-C02 · 2024</span></div>
+        <div class="cert"><b>Spring Boot 3 &amp; Spring Framework 6</b><span>Udemy (Chad Darby) · 2025</span></div>
+        <div class="cert"><b>REST API Design, Development &amp; Management</b><span>Udemy · 2024</span></div>
+      </section>
+
+      <section>
+        <h2>Education</h2>
+        <div class="cert"><b>B.Tech, Electronics &amp; Communication Engineering</b><span>VIT Vellore · 2020 – 2024</span></div>
+      </section>
+    </aside>
+  </div>
+  <div class="foot"><span>Let’s talk about your product → <b>chintalamahindra163@gmail.com</b></span><span>2 / 2</span></div>
+</section>
+</body>
+</html>
