@@ -32,10 +32,10 @@
   .kicker { font-family: 'JBM', monospace; font-size: 6.6pt; letter-spacing: .32em; color: #ff8a3d; text-transform: uppercase; }
   .name { font-family: 'BSD', Impact, sans-serif; font-weight: 900; font-size: 40pt; line-height: .86; letter-spacing: .005em; margin: 2.5mm 0 0; text-transform: uppercase; }
   .name span { color: #ff7a1a; }
-  .role { display: flex; align-items: baseline; gap: 3.5mm; margin-top: 2.8mm; flex-wrap: wrap; }
+  .role { display: flex; align-items: baseline; justify-content: space-between; gap: 6mm; margin-top: 3mm; }
   .role b { font-size: 12pt; font-weight: 700; letter-spacing: .01em; }
-  .role span { font-size: 8.8pt; color: #c9c5bd; }
-  .tag-line { position: absolute; right: 13mm; top: 20.5mm; font-family: 'Serif', Georgia, serif; font-size: 15pt; color: #ffb02e; }
+  .role i { font-family: 'Serif', Georgia, serif; font-size: 15pt; color: #ffb02e; white-space: nowrap; }
+  .skills-line { font-size: 8.6pt; color: #c9c5bd; margin-top: 1.2mm; }
   .contact { display: flex; flex-wrap: wrap; gap: 1.4mm 5mm; margin-top: 4mm; font-family: 'JBM', monospace; font-size: 7pt; color: #c9c5bd; }
   .contact a { color: inherit; text-decoration: none; }
   .contact em { font-style: normal; color: #ff8a3d; margin-right: 1.2mm; }
@@ -112,8 +112,8 @@
   <header class="hero">
     <div class="kicker">Freelance · Remote · AWS Certified · Booking new projects</div>
     <h1 class="name">Chintala <span>Mahindra</span></h1>
-    <i class="tag-line">From MVP to millions of requests.</i>
-    <div class="role"><b>Full-Stack &amp; Cloud Engineer</b><span>System Design · Spring Boot · React · AWS · Docker · Kubernetes · CI/CD</span></div>
+    <div class="role"><b>Full-Stack, Mobile &amp; Cloud Engineer</b><i>From first website to millions of requests.</i></div>
+    <div class="skills-line">Websites · Mobile apps · System design · Spring Boot · React · AWS · Docker · Kubernetes · CI/CD</div>
     <div class="contact">
       <a href="mailto:chintalamahindra163@gmail.com"><em>✉</em>chintalamahindra163@gmail.com</a>
       <a href="tel:+919618112357"><em>☏</em>+91 96181 12357 (WhatsApp)</a>
@@ -129,7 +129,7 @@
       <section>
         <h2>Profile</h2>
         <p class="lede">
-          Full-stack and cloud engineer who designs, builds and scales products end to end: <strong>React and Next.js</strong> front ends,
+          Full-stack, mobile and cloud engineer who designs, builds and scales products end to end: <strong>React, Next.js and React Native</strong> apps,
           <strong>Java 21 / Spring Boot 3</strong> services, and <strong>AWS</strong> infrastructure running on <strong>Docker and Kubernetes</strong>
           with automated CI/CD. I start from the system design (caching, queues, idempotency, isolation, failure modes) and write the
           decisions down before the code, so clients know what they are getting, why, and what it will cost to run.
@@ -139,10 +139,9 @@
       <section>
         <h2>What I deliver</h2>
         <ul>
-          <li><b>Full-stack MVPs</b> taken from idea to production on AWS, built to grow rather than be rewritten at the first customer.</li>
-          <li><b>Scale &amp; performance rescues</b>: load tests that reproduce the pain, query and cache fixes, and a capacity plan for the next 10×.</li>
-          <li><b>Kubernetes &amp; cloud migrations</b>: containerised services on EKS via Terraform and Helm, with zero-downtime cutover.</li>
-          <li><b>CI/CD platforms</b>: GitHub Actions, image scanning, GitOps with Argo CD, canary releases with automatic rollback.</li>
+          <li><b>Websites &amp; mobile apps</b> for small businesses and personal brands: fast, mobile-first sites, React Native apps for iOS and Android, and low-cost care plans.</li>
+          <li><b>Startup MVPs</b> for busy founders, taken from idea to production on AWS and built to grow rather than be rewritten.</li>
+          <li><b>Scale, cloud &amp; CI/CD</b>: load-test-driven performance fixes, EKS via Terraform and Helm, GitOps with Argo CD and canary releases.</li>
           <li><b>AI features</b>: permission-aware RAG and document Q&amp;A with citations, cost controls and evals.</li>
         </ul>
       </section>
@@ -165,7 +164,7 @@
         <div class="live">
           <div><b>Systems Lab</b><span>Interactive scaling model: traffic, autoscaling, caching, queues and replicas, with the bottleneck explained.</span></div>
           <div><b>6 architectures</b><span>Clickable diagrams with live request traces, scaling stages, decisions and failure modes.</span></div>
-          <div><b>Delivery platform</b><span>CI/CD run with canary and automatic rollback; Docker, Kubernetes, Actions and Terraform configs.</span></div>
+          <div><b>Showcase</b><span>Sample websites and matching mobile apps for small businesses, with clear starting prices.</span></div>
         </div>
       </section>
 
@@ -176,7 +175,7 @@
         <h2>Expertise</h2>
         <div class="exp-group"><b>SYSTEM DESIGN</b><span>Scalability, caching, queues, idempotency, multi-tenancy, event-driven design, consistency, capacity planning</span></div>
         <div class="exp-group"><b>BACK END</b><span>Java 21, Spring Boot 3, Spring Security (JWT, OAuth2, RBAC), REST, WebSockets, microservices</span></div>
-        <div class="exp-group"><b>FRONT END</b><span>React, Next.js, TypeScript, Tailwind CSS</span></div>
+        <div class="exp-group"><b>WEB &amp; MOBILE</b><span>React, Next.js, React Native (Expo), TypeScript, Tailwind CSS, SEO</span></div>
         <div class="exp-group"><b>DATA</b><span>PostgreSQL / Aurora, Redis, DynamoDB, pgvector, SQL Server</span></div>
         <div class="exp-group"><b>AWS</b><span>EKS, EC2, Lambda, RDS, S3, CloudFront, SQS, SNS, IAM, Secrets Manager, CloudWatch</span></div>
         <div class="exp-group"><b>PLATFORM</b><span>Docker, Kubernetes, Helm, Terraform, Argo CD, GitHub Actions, OpenTelemetry</span></div>
@@ -201,7 +200,7 @@
 
 <!-- ─────────── PAGE 2 ─────────── -->
 <section class="page">
-  <header class="slim"><div class="n">Chintala <span>Mahindra</span></div><div class="t">Full-Stack &amp; Cloud Engineer · chintalamahindra163@gmail.com · +91 96181 12357</div></header>
+  <header class="slim"><div class="n">Chintala <span>Mahindra</span></div><div class="t">Full-Stack, Mobile &amp; Cloud Engineer · chintalamahindra163@gmail.com · +91 96181 12357</div></header>
   <div class="body">
     <div class="main">
       <section>

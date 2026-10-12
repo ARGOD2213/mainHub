@@ -5,11 +5,12 @@ import { ViewerGlyph } from './ProfileSelect'
 
 type Id = (typeof viewers)[number]['id']
 const LINKS = [
+  ['Pricing', '#services'],
+  ['Showcase', '#showcase'],
+  ['Students', '#students'],
   ['Lab', '#lab'],
-  ['Blueprints', '#blueprints'],
+  ['Architectures', '#blueprints'],
   ['Platform', '#platform'],
-  ['Services', '#services'],
-  ['Process', '#process'],
   ['Resume', '#resume'],
 ] as const
 
@@ -33,7 +34,7 @@ export default function Navbar({ viewer, onViewer }: { viewer: Id; onViewer: (id
       <a href="#top" className="display flex items-center gap-2 text-2xl font-black text-amber" aria-label="Home">
         MAHINDRA
       </a>
-      <nav className="hidden gap-5 text-sm md:flex">
+      <nav className="hidden gap-5 text-sm lg:flex">
         {LINKS.map(([l, h]) => (
           <a key={l} href={h} className="text-mist transition-colors hover:text-bone">{l}</a>
         ))}
@@ -72,7 +73,7 @@ export default function Navbar({ viewer, onViewer }: { viewer: Id; onViewer: (id
             )}
           </AnimatePresence>
         </div>
-        <button className="md:hidden" onClick={() => setMenu((m) => !m)} aria-label="Menu" aria-expanded={menu}>
+        <button className="lg:hidden" onClick={() => setMenu((m) => !m)} aria-label="Menu" aria-expanded={menu}>
           <svg width="26" height="26" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none"><path d={menu ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'} /></svg>
         </button>
       </div>
@@ -82,7 +83,7 @@ export default function Navbar({ viewer, onViewer }: { viewer: Id; onViewer: (id
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="absolute inset-x-0 top-16 overflow-hidden border-b border-line bg-ink/98 md:hidden"
+            className="absolute inset-x-0 top-16 overflow-hidden border-b border-line bg-ink/98 lg:hidden"
           >
             {LINKS.map(([l, h]) => (
               <a key={l} href={h} onClick={() => setMenu(false)} className="gutter block py-3 text-lg text-mist hover:text-bone">{l}</a>

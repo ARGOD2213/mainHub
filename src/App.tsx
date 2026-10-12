@@ -1,6 +1,7 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { viewers, type Blueprint, type SectionId } from './data/portfolio'
+import { viewers, type Blueprint, type BriefId, type SectionId } from './data/portfolio'
+import { CurrencyProvider } from './lib/currency'
 import Opening from './components/Opening'
 import ProfileSelect from './components/ProfileSelect'
 import Navbar from './components/Navbar'
@@ -10,10 +11,13 @@ import SystemsLab from './components/SystemsLab'
 import Blueprints from './components/Blueprints'
 import BlueprintModal from './components/BlueprintModal'
 import Platform from './components/Platform'
-import { About, FAQ, Finale, Process, Resume, Services, Stack } from './components/Sections'
+import { About, FAQ, Finale, Process, Resume, Stack } from './components/Sections'
+import Pricing from './components/Pricing'
+import Showcase from './components/Showcase'
+import Students from './components/Students'
 
 type Id = (typeof viewers)[number]['id']
-const KEY = 'mahindra-series-viewer-v2'
+const KEY = 'mahindra-series-viewer-v3'
 
 function stored(): Id | null {
   try {
@@ -24,13 +28,39 @@ function stored(): Id | null {
   }
 }
 
+/** Audience links for promotion: ?for=business|founder|cto|student skips the intro and opens that view. */
+function fromLink(): Id | null {
+  try {
+    const v = new URLSearchParams(window.location.search).get('for')
+    return viewers.some((x) => x.id === v) ? (v as Id) : null
+  } catch {
+    return null
+  }
+}
+
 export default function App() {
-  const first = stored()
-  const [stage, setStage] = useState<'opening' | 'profiles' | 'home'>(first ? 'home' : 'opening')
-  const [viewer, setViewer] = useState<Id>(first ?? 'founder')
+  return (
+    <CurrencyProvider>
+      <Series />
+    </CurrencyProvider>
+  )
+}
+
+function Series() {
+  const [first] = useState<Id | null>(() => fromLink() ?? stored())
+  // a section anchor (e.g. /#services) also skips the intro
+  const [hash] = useState(() => (typeof window !== 'undefined' ? window.location.hash.slice(1) : ''))
+  const [stage, setStage] = useState<'opening' | 'profiles' | 'home'>(first || hash ? 'home' : 'opening')
+  const [viewer, setViewer] = useState<Id>(first ?? 'business')
+
+  useEffect(() => {
+    if (!hash) return
+    const t = setTimeout(() => document.getElementById(hash)?.scrollIntoView(), 120)
+    return () => clearTimeout(t)
+  }, [hash])
   const [trailer, setTrailer] = useState(false)
   const [open, setOpen] = useState<Blueprint | null>(null)
-  const [picked, setPicked] = useState('')
+  const [picked, setPicked] = useState<BriefId | ''>('')
   const [toast, setToast] = useState('')
 
   const endOpening = useCallback(() => setStage('profiles'), [])
@@ -40,7 +70,7 @@ export default function App() {
     if (stage !== 'home') { window.scrollTo(0, 0); setStage('home') }
     else {
       const v = viewers.find((x) => x.id === id)!
-      setToast(`Now watching as ${v.name}: ${v.blurb.toLowerCase()} first`)
+      setToast(`Now watching as ${v.name}`)
       window.scrollTo({ top: 0, behavior: 'smooth' })
       setTimeout(() => setToast(''), 2600)
     }
@@ -48,18 +78,21 @@ export default function App() {
   const closeTrailer = useCallback(() => setTrailer(false), [])
   const closeModal = useCallback(() => setOpen(null), [])
 
+  const v = viewers.find((x) => x.id === viewer)!
   const sections: Record<SectionId, ReactNode> = {
+    services: <Pricing key={v.track} initial={v.track} onPick={setPicked} />,
+    showcase: <Showcase onPick={setPicked} />,
+    students: <Students onPick={setPicked} />,
     lab: <SystemsLab />,
     blueprints: <Blueprints onOpen={setOpen} />,
     platform: <Platform />,
-    services: <Services onPick={setPicked} />,
     process: <Process />,
     stack: <Stack />,
     about: <About />,
     faq: <FAQ />,
     resume: <Resume />,
   }
-  const order = viewers.find((v) => v.id === viewer)!.order
+  const order = v.order
 
   return (
     <>
