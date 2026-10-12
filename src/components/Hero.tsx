@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { blueprints, profile } from '../data/portfolio'
+import { profile, tracks } from '../data/portfolio'
+import { money, useCurrency } from '../lib/currency'
 import PacketField from './PacketField'
 import { EASE } from './Opening'
 
@@ -10,6 +11,8 @@ const rise = (d: number) => ({
 })
 
 export default function Hero({ onPlay }: { onPlay: () => void }) {
+  const { cur } = useCurrency()
+  const first = tracks[0].plans[0]
   return (
     <section id="top" className="grain relative flex min-h-[92svh] items-end overflow-hidden pb-[10vh] pt-28">
       <div className="absolute inset-0">
@@ -38,7 +41,7 @@ export default function Hero({ onPlay }: { onPlay: () => void }) {
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />{profile.availability}
           </span>
           <span className="text-mist">Remote · {profile.timezone}</span>
-          <span className="rounded-sm border border-mist/50 px-1.5 text-[11px] font-semibold text-mist">{blueprints.length} ORIGINALS</span>
+          <span className="rounded-sm border border-amber/60 px-1.5 text-[11px] font-semibold text-amber-2">SITES FROM {money(cur, first.inr, first.usd)}</span>
           <span className="text-smoke">·</span>
           {profile.genres.map((g, i) => (
             <span key={g} className="text-bone">{g}{i < profile.genres.length - 1 && <span className="ml-3 text-smoke">•</span>}</span>
@@ -53,10 +56,7 @@ export default function Hero({ onPlay }: { onPlay: () => void }) {
           <a href="#contact" className="btn btn-play">
             Start a project
           </a>
-          <a href="#lab" className="btn btn-ghost">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 3h6M10 3v6L4 19a1.5 1.5 0 001.3 2h13.4A1.5 1.5 0 0020 19l-6-10V3" /></svg>
-            Try the Systems Lab
-          </a>
+          <a href="#services" className="btn btn-ghost">See prices</a>
           <button onClick={onPlay} className="btn btn-ghost">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z" /></svg>
             Trailer

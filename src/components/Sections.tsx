@@ -1,45 +1,6 @@
 import { useState } from 'react'
-import { credentials, engagement, faq, process, profile, services, stack, standards } from '../data/portfolio'
+import { basics, briefTypes, credentials, faq, process, profile, stack, standards, type BriefId } from '../data/portfolio'
 import { GitHubIcon, Reveal, SectionHead, copyText } from './ui'
-
-export function Services({ onPick }: { onPick: (id: string) => void }) {
-  return (
-    <section id="services" className="py-16">
-      <SectionHead kicker="SERVICES" title="What I can take off your plate" note="Every engagement starts with a 30-minute call and a written scope with a fixed quote. Timelines below are typical ranges." />
-      <div className="gutter grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {services.map((s, i) => (
-          <Reveal key={s.id} delay={(i % 3) * 0.06}>
-            <article className="group flex h-full flex-col rounded-xl border border-line bg-ink-2/70 p-6 transition-colors hover:border-amber/60">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="display text-[2rem] font-black text-bone">{s.name}</h3>
-                <span className="mono mt-1 shrink-0 rounded-full border border-line px-2.5 py-1 text-[10px] text-mist">{s.typical}</span>
-              </div>
-              <p className="mt-2 text-[15px] leading-relaxed text-mist">{s.pitch}</p>
-              <ul className="mt-4 flex-1 space-y-1.5 text-sm text-bone/90">
-                {s.gets.map((g) => (
-                  <li key={g} className="flex gap-2"><span className="text-amber">✓</span>{g}</li>
-                ))}
-              </ul>
-              <a href="#contact" onClick={() => onPick(s.id)} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber group-hover:text-amber-2">
-                Discuss this →
-              </a>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal className="gutter mt-6">
-        <div className="grid gap-3 rounded-xl border border-line p-5 sm:grid-cols-3">
-          {engagement.map((e) => (
-            <div key={e.name}>
-              <p className="font-semibold text-bone">{e.name}</p>
-              <p className="text-sm text-smoke">{e.text}</p>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-    </section>
-  )
-}
 
 export function Process() {
   return (
@@ -59,7 +20,13 @@ export function Process() {
           ))}
         </ol>
         <Reveal className="mt-10">
-          <h3 className="mb-4 text-xl font-bold text-bone">What every build ships with</h3>
+          <div className="mb-6 rounded-xl border border-line bg-ink-2/70 p-5">
+            <h3 className="font-bold text-bone">Every project, however small</h3>
+            <ul className="mt-3 grid gap-2 text-sm text-mist sm:grid-cols-2 lg:grid-cols-5">
+              {basics.map((b) => <li key={b} className="flex gap-2"><span className="text-amber">✓</span>{b}</li>)}
+            </ul>
+          </div>
+          <h3 className="mb-4 text-xl font-bold text-bone">What product and platform builds add</h3>
           <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {standards.map((s) => (
               <div key={s.area} className="bg-ink-2 p-5">
@@ -105,8 +72,8 @@ export function About() {
           </p>
           <div className="mt-6 max-w-[65ch] space-y-4 text-[1.02rem] leading-relaxed text-mist">
             <p>
-              I’m Mahindra, a Java and Spring Boot engineer in Hyderabad. I spend my days on enterprise backends and my evenings
-              on systems like the ones on this page: multi-tenant platforms, real-time pipelines, payment ledgers and AI assistants.
+              I’m Mahindra, a full-stack engineer in Hyderabad. I build websites for small businesses and personal brands, mobile apps
+              in React Native, and the backends and cloud setups that let a startup grow without a rewrite.
             </p>
             <p>
               I care about the boring things that make products survive: idempotent writes, sensible caches, queues in front of
@@ -122,8 +89,8 @@ export function About() {
             {[
               ['Role', profile.role],
               ['Based in', `${profile.location} · ${profile.timezone}`],
-              ['Core', 'Java 21 · Spring Boot 3 · React · AWS'],
-              ['Platform', 'Docker · Kubernetes · Terraform · CI/CD'],
+              ['Core', 'React · Next.js · React Native · Spring Boot'],
+              ['Cloud', 'AWS · Docker · Kubernetes · CI/CD'],
               ['Status', profile.availability],
             ].map(([k, v]) => (
               <div key={k} className="flex justify-between gap-4 px-5 py-3.5 text-sm">
@@ -192,20 +159,19 @@ export function Resume() {
   )
 }
 
-const TYPES = [...services.map((s) => ({ id: s.id, name: s.name })), { id: 'other', name: 'Something else' }]
-const STAGES = ['Just an idea', 'MVP is live', 'Growing, hitting limits', 'Established product']
+const STAGES = ['Just an idea', 'Have an old site or design', 'Live product', 'College project']
 const WHEN = ['As soon as possible', 'Within 1–3 months', 'Flexible']
 
-export function Finale({ picked }: { picked: string }) {
-  const [type, setType] = useState(picked || 'mvp')
-  const [stage, setStage] = useState(STAGES[1])
+export function Finale({ picked }: { picked: BriefId | '' }) {
+  const [type, setType] = useState<BriefId>(picked || 'website')
+  const [stage, setStage] = useState(STAGES[0])
   const [when, setWhen] = useState(WHEN[1])
   const [desc, setDesc] = useState('')
   const [copied, setCopied] = useState('')
   const [lastPicked, setLastPicked] = useState(picked)
-  if (picked !== lastPicked) { setLastPicked(picked); if (picked) setType(picked) }
+  if (picked !== lastPicked) { setLastPicked(picked); if (picked) { setType(picked); if (picked === 'student') setStage(STAGES[3]) } }
 
-  const name = TYPES.find((t) => t.id === type)!.name
+  const name = briefTypes.find((t) => t.id === type)!.name
   const body = `Hi Mahindra,\n\nProject: ${name}\nStage: ${stage}\nTimeline: ${when}\n\n${desc || '(a few lines about the product and the problem)'}\n`
   const mail = `mailto:${profile.email}?subject=${encodeURIComponent(`Project enquiry: ${name}`)}&body=${encodeURIComponent(body)}`
   const wa = `${profile.whatsapp}?text=${encodeURIComponent(body)}`
@@ -229,7 +195,7 @@ export function Finale({ picked }: { picked: string }) {
             <fieldset>
               <legend className="mb-2 text-xs text-smoke">What do you need?</legend>
               <div className="flex flex-wrap gap-2">
-                {TYPES.map((t) => <button type="button" key={t.id} onClick={() => setType(t.id)} className={pill(type === t.id)} aria-pressed={type === t.id}>{t.name}</button>)}
+                {briefTypes.map((t) => <button type="button" key={t.id} onClick={() => setType(t.id)} className={pill(type === t.id)} aria-pressed={type === t.id}>{t.name}</button>)}
               </div>
             </fieldset>
             <fieldset>
@@ -251,7 +217,7 @@ export function Finale({ picked }: { picked: string }) {
                 rows={4}
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
-                placeholder="What the product does, who uses it, and what’s hurting right now."
+                placeholder="Your business or idea, who it’s for, and anything you already have (logo, photos, old site). Students: branch, semester, deadline."
                 className="w-full resize-y rounded-lg border border-line bg-ink px-3 py-2 text-sm text-bone placeholder:text-smoke focus:border-amber focus:outline-none"
               />
             </div>

@@ -2,23 +2,23 @@
  * Single source of truth for the site.
  *
  * Honesty rules this file follows (keep them when you edit):
- *  - Blueprints are reference architectures / system-design case studies. They are labelled as designs
- *    on the site. No invented clients, users, revenue or performance numbers.
- *  - Figures inside a blueprint "brief" describe the hypothetical scenario being designed for.
+ *  - Blueprints are reference architectures / system-design case studies, labelled as designs on the site.
+ *    No invented clients, users, revenue or performance numbers.
+ *  - Showcase sites and apps are sample designs for made-up businesses, labelled as samples.
  *  - ARGUS is real and public (github.com/ARGOD2213/ARGUS); its content comes from that repo.
- *  - Service timelines are typical ranges you can edit; prices are quoted per project.
+ *  - PRICES and timelines below are starting points YOU set. Edit them in `tracks` before publishing.
  */
 
 export const profile = {
   name: 'Chintala Mahindra',
   first: 'MAHINDRA',
-  series: 'THE SCALE SERIES',
+  series: 'THE BUILD SERIES',
   studio: 'A CHINTALA ORIGINAL',
-  role: 'Freelance Full-Stack & Cloud Engineer',
-  headline: 'From MVP to millions of requests.',
-  genres: ['System Design', 'Full Stack', 'AWS', 'Kubernetes', 'CI/CD'],
+  role: 'Freelance Full-Stack, Mobile & Cloud Engineer',
+  headline: 'From first website to millions of requests.',
+  genres: ['Websites', 'Mobile apps', 'Startups', 'Cloud'],
   logline:
-    'I design, build and scale products end to end: React and Next.js up front, Java and Spring Boot behind it, and AWS, Docker, Kubernetes and CI/CD underneath, so your product stays fast when the traffic arrives.',
+    'Websites for local businesses and personal brands, React Native apps for iOS and Android, and startup products built to scale on AWS. Honest prices, care plans that keep things running, and the same engineering care behind a small shop’s website as a Kubernetes cluster.',
   location: 'Hyderabad, India',
   timezone: 'IST (UTC+5:30)',
   email: 'chintalamahindra163@gmail.com',
@@ -32,20 +32,182 @@ export const profile = {
   availability: 'Booking new projects',
 }
 
-export type SectionId = 'lab' | 'blueprints' | 'platform' | 'services' | 'process' | 'stack' | 'about' | 'faq' | 'resume'
+export type SectionId = 'services' | 'showcase' | 'students' | 'lab' | 'blueprints' | 'platform' | 'process' | 'stack' | 'about' | 'faq' | 'resume'
+export type TrackId = 'web' | 'startup' | 'scale' | 'student'
+export type ViewerId = 'business' | 'founder' | 'cto' | 'student'
 
-export const viewers: { id: 'founder' | 'cto' | 'hiring'; name: string; blurb: string; color: string; order: SectionId[] }[] = [
-  { id: 'founder', name: 'Founder', blurb: 'What I can build for you', color: '#ff7a1a', order: ['services', 'blueprints', 'lab', 'process', 'about', 'faq', 'platform', 'stack', 'resume'] },
-  { id: 'cto', name: 'CTO / Tech lead', blurb: 'Architecture and platform depth', color: '#3ec7a5', order: ['lab', 'blueprints', 'platform', 'stack', 'process', 'services', 'about', 'faq', 'resume'] },
-  { id: 'hiring', name: 'Agency / Hiring', blurb: 'Skills, proof and resume', color: '#8f7bff', order: ['about', 'blueprints', 'lab', 'stack', 'platform', 'resume', 'services', 'process', 'faq'] },
+export const viewers: { id: ViewerId; name: string; blurb: string; color: string; track: TrackId; order: SectionId[] }[] = [
+  { id: 'business', name: 'Business owner', blurb: 'A website or app for my business', color: '#ff7a1a', track: 'web', order: ['showcase', 'services', 'process', 'faq', 'about', 'blueprints', 'lab', 'platform', 'stack', 'students', 'resume'] },
+  { id: 'founder', name: 'Founder', blurb: 'Build my startup idea', color: '#3ec7a5', track: 'startup', order: ['services', 'blueprints', 'showcase', 'lab', 'process', 'about', 'faq', 'platform', 'stack', 'students', 'resume'] },
+  { id: 'cto', name: 'CTO / Tech lead', blurb: 'Scale, cloud and platform depth', color: '#5aa9ff', track: 'scale', order: ['lab', 'blueprints', 'platform', 'services', 'stack', 'process', 'about', 'faq', 'showcase', 'students', 'resume'] },
+  { id: 'student', name: 'Student', blurb: 'Help with my college project', color: '#8f7bff', track: 'student', order: ['students', 'services', 'blueprints', 'lab', 'stack', 'about', 'faq', 'showcase', 'platform', 'process', 'resume'] },
 ]
 
 export const trailer = [
-  { kicker: 'Previously on…', text: 'Your product found users. Now the pages are slow and the deploys are scary.' },
-  { kicker: 'Episode 1', text: 'Load-test it, find the real bottleneck, fix that first.' },
-  { kicker: 'Episode 2', text: 'Cache the hot path. Queue the bursts. Let Kubernetes scale the rest.' },
-  { kicker: 'Episode 3', text: 'Every merge tested, scanned and shipped by canary, with automatic rollback.' },
-  { kicker: 'Next season', text: 'Your product. Let’s write it together.' },
+  { kicker: 'Previously on…', text: 'A café with no website. A founder with an idea and no evenings. A final-year student with a deadline.' },
+  { kicker: 'Episode 1', text: 'A fast, good-looking site, live in days, at a price a small shop can afford.' },
+  { kicker: 'Episode 2', text: 'An MVP and a React Native app, built around your day job, owned by you.' },
+  { kicker: 'Episode 3', text: 'When traffic arrives: cache, queue, autoscale. Ship every change with a rollback.' },
+  { kicker: 'Next season', text: 'Your business, your idea, your project. Let’s build it.' },
+]
+
+/* ───────────────────────── Pricing tracks ───────────────────────── */
+
+export type Plan = {
+  name: string
+  for: string
+  inr: number | null // starting price in ₹ (null = custom quote)
+  usd: number | null // starting price in $
+  per?: 'month' // recurring
+  time: string
+  gets: string[]
+  brief: BriefId
+  popular?: boolean
+}
+export type BriefId = 'website' | 'store' | 'mobile' | 'mvp' | 'scale' | 'student' | 'care'
+
+export const briefTypes: { id: BriefId; name: string }[] = [
+  { id: 'website', name: 'Website / portfolio' },
+  { id: 'store', name: 'Online store or bookings' },
+  { id: 'mobile', name: 'Mobile app' },
+  { id: 'mvp', name: 'Startup MVP' },
+  { id: 'scale', name: 'Scale, cloud & DevOps' },
+  { id: 'care', name: 'Maintenance / care plan' },
+  { id: 'student', name: 'Student project' },
+]
+
+export const tracks: { id: TrackId; name: string; who: string; plans: Plan[] }[] = [
+  {
+    id: 'web',
+    name: 'Small business & personal',
+    who: 'Local shops, cafés, clinics, salons, tutors, creators and professionals who need to be found online and get enquiries.',
+    plans: [
+      { name: 'Personal portfolio', for: 'Professionals, creators, job seekers', inr: 4999, usd: 149, time: '3–5 days', brief: 'website', gets: ['1–5 page responsive site', 'Your domain connected', 'Contact form + WhatsApp button', 'SEO basics + Google indexing', 'Free hosting setup'] },
+      { name: 'Business website', for: 'Shops, clinics, salons, cafés, services', inr: 9999, usd: 299, time: '1–2 weeks', brief: 'website', popular: true, gets: ['Up to 8 pages, mobile-first', 'Services / menu / catalogue', 'Google Maps + Business Profile links', 'Enquiry forms to email and WhatsApp', 'Analytics + on-page SEO'] },
+      { name: 'Store or booking site', for: 'Sell products or take appointments', inr: 24999, usd: 699, time: '2–4 weeks', brief: 'store', gets: ['Product catalogue or booking slots', 'Razorpay / Stripe payments', 'Order and booking emails', 'Simple admin panel', 'Invoices and stock basics'] },
+      { name: 'Care plan', for: 'Keep it running without thinking about it', inr: 999, usd: 29, per: 'month', time: 'Monthly', brief: 'care', gets: ['Hosting, SSL and domain watched', 'Weekly backups + updates', 'Uptime monitoring', 'Small edits every month', 'Priority WhatsApp support'] },
+    ],
+  },
+  {
+    id: 'startup',
+    name: 'Startups & founders',
+    who: 'Busy professionals and first-time founders with an idea and no time to build it. I build around your day job and you own everything.',
+    plans: [
+      { name: 'Idea sprint', for: 'Turn the idea into a plan you can show', inr: 14999, usd: 399, time: '1 week', brief: 'mvp', gets: ['Scope and feature list', 'Clickable UI prototype', 'Architecture + cost estimate', 'Build plan with milestones', 'Pitch-ready screens'] },
+      { name: 'MVP web app', for: 'Launch to your first users', inr: 59999, usd: 1799, time: '4–8 weeks', brief: 'mvp', popular: true, gets: ['Next.js app + Spring Boot API', 'Login, roles, payments', 'Admin dashboard', 'Deployed on AWS with CI/CD', 'Analytics and error tracking'] },
+      { name: 'Mobile app', for: 'iOS + Android from one codebase', inr: 69999, usd: 1999, time: '5–10 weeks', brief: 'mobile', gets: ['React Native (Expo) app', 'Push notifications', 'Offline-friendly data', 'Shared backend with the web app', 'App Store + Play Store release'] },
+      { name: 'Startup care', for: 'A part-time engineer after launch', inr: 14999, usd: 499, per: 'month', time: 'Monthly', brief: 'care', gets: ['Fixed monthly hours', 'Features, fixes, reviews', 'Monitoring + cost hygiene', 'Store updates for the app', 'Monthly written summary'] },
+    ],
+  },
+  {
+    id: 'scale',
+    name: 'Scale & cloud',
+    who: 'Products with real users that are getting slow, expensive or scary to deploy.',
+    plans: [
+      { name: 'Scale & performance rescue', for: 'Slow pages, timeouts at peak', inr: null, usd: null, time: '1–3 weeks', brief: 'scale', gets: ['k6 load test that reproduces it', 'Query plans, indexes, caching', 'Async offload with queues', 'Capacity plan for the next 10×', 'Written report'] },
+      { name: 'Kubernetes & cloud migration', for: 'From one server to EKS', inr: null, usd: null, time: '3–6 weeks', brief: 'scale', gets: ['Dockerised services', 'EKS via Terraform', 'Helm + autoscaling', 'Secrets, IAM, network policies', 'Zero-downtime cutover'] },
+      { name: 'CI/CD & DevOps setup', for: 'Boring, safe deploys', inr: 19999, usd: 599, time: '1–2 weeks', brief: 'scale', gets: ['GitHub Actions pipelines', 'Preview environments per PR', 'Image scanning + SAST', 'Canary or blue-green releases', 'Dashboards and alerts'] },
+      { name: 'AI feature integration', for: 'Assistants and document Q&A', inr: null, usd: null, time: '2–4 weeks', brief: 'scale', gets: ['RAG with citations', 'Permission-aware retrieval', 'Streaming chat API + UI', 'Cost controls + caching', 'Evals so quality holds'] },
+    ],
+  },
+  {
+    id: 'student',
+    name: 'Students',
+    who: 'Engineering students who want a real project they understand, can deploy, and can defend in the viva. You build it with me; you don’t just receive it.',
+    plans: [
+      { name: 'Idea & plan', for: 'Pick the right project', inr: 999, usd: 29, time: '2 days', brief: 'student', gets: ['3 ideas matched to your branch', 'Abstract + problem statement', 'Architecture diagram', 'Module plan and timeline', 'Tech stack you can learn'] },
+      { name: 'Guided build', for: 'Build it together, step by step', inr: 4999, usd: 149, time: '2–6 weeks', brief: 'student', popular: true, gets: ['Weekly 1:1 build sessions', 'You write the code, I guide and review', 'GitHub repo with clean history', 'Deployed live demo', 'Hardware + IoT help for ECE/EEE'] },
+      { name: 'Report & viva prep', for: 'Present it with confidence', inr: 1999, usd: 59, time: '1 week', brief: 'student', gets: ['Report structure review', 'UML and architecture diagrams', 'Slides that explain the system', 'Mock viva with likely questions', 'Demo rehearsal'] },
+    ],
+  },
+]
+
+export const pricingNotes = [
+  'Prices are starting points. You get a fixed quote after a short call.',
+  'Domain, paid hosting and third-party fees (payments, app stores, SMS) are billed at cost.',
+  '50% to start, 50% on delivery for small projects; milestones for larger ones.',
+]
+
+/* ───────────────────────── Showcase (sample designs) ───────────────────────── */
+
+export type Sample = {
+  id: string
+  kind: string
+  brand: string
+  tagline: string
+  colors: { bg: string; fg: string; accent: string; soft: string }
+  font: 'serif' | 'sans' | 'display'
+  nav: string[]
+  cta: [string, string]
+  listTitle: string
+  items: { name: string; meta: string; price?: string }[]
+  app: { title: string; action: string; tabs: string[] }
+  plan: string
+}
+
+export const showcase: Sample[] = [
+  {
+    id: 'cafe', kind: 'Café', brand: 'Brew & Bloom', tagline: 'Slow coffee, fresh bakes, open from 7am.',
+    colors: { bg: '#f6efe6', fg: '#2b1d14', accent: '#b5562a', soft: '#ead9c6' }, font: 'serif',
+    nav: ['Menu', 'Visit', 'Order'], cta: ['Order on WhatsApp', 'Reserve a table'], listTitle: 'Today’s menu',
+    items: [{ name: 'Filter coffee', meta: 'South Indian, chicory blend', price: '₹90' }, { name: 'Cold brew', meta: '18-hour steep', price: '₹180' }, { name: 'Almond croissant', meta: 'Baked this morning', price: '₹160' }],
+    app: { title: 'Order ahead', action: 'Place order', tabs: ['Menu', 'Orders', 'Rewards', 'Profile'] }, plan: 'Business website + Care plan',
+  },
+  {
+    id: 'salon', kind: 'Salon', brand: 'Luxe Locks', tagline: 'Cuts, colour and care by appointment.',
+    colors: { bg: '#141018', fg: '#f4ecf6', accent: '#d68fd6', soft: '#2a2030' }, font: 'display',
+    nav: ['Services', 'Stylists', 'Book'], cta: ['Book a slot', 'See price list'], listTitle: 'Popular services',
+    items: [{ name: 'Haircut & style', meta: '45 min', price: '₹699' }, { name: 'Global colour', meta: '2 hrs', price: '₹2,499' }, { name: 'Keratin spa', meta: '90 min', price: '₹1,799' }],
+    app: { title: 'Pick a time', action: 'Confirm booking', tabs: ['Book', 'Visits', 'Offers', 'Profile'] }, plan: 'Store or booking site',
+  },
+  {
+    id: 'clinic', kind: 'Clinic', brand: 'CarePoint Clinic', tagline: 'Family doctors and specialists, six days a week.',
+    colors: { bg: '#f1f7f8', fg: '#0f2a33', accent: '#0e8a8a', soft: '#d6ecee' }, font: 'sans',
+    nav: ['Doctors', 'Timings', 'Contact'], cta: ['Book appointment', 'Call the clinic'], listTitle: 'Departments',
+    items: [{ name: 'General medicine', meta: 'Mon–Sat · 9am–1pm' }, { name: 'Paediatrics', meta: 'Mon–Fri · 5pm–8pm' }, { name: 'Dermatology', meta: 'Tue, Thu, Sat · 10am–2pm' }],
+    app: { title: 'Book a visit', action: 'Book appointment', tabs: ['Book', 'Reports', 'Reminders', 'Profile'] }, plan: 'Store or booking site + Mobile app',
+  },
+  {
+    id: 'store', kind: 'Boutique', brand: 'Thread & Loom', tagline: 'Handloom sarees and kurtas, shipped across India.',
+    colors: { bg: '#fbf6ee', fg: '#3a1420', accent: '#a3263f', soft: '#f1e2d3' }, font: 'serif',
+    nav: ['Shop', 'Collections', 'Cart'], cta: ['Shop the collection', 'Chat with us'], listTitle: 'New arrivals',
+    items: [{ name: 'Pochampally ikat saree', meta: 'Handwoven cotton', price: '₹3,450' }, { name: 'Kalamkari kurta', meta: 'Block printed', price: '₹1,290' }, { name: 'Gadwal silk dupatta', meta: 'Zari border', price: '₹1,850' }],
+    app: { title: 'Shop', action: 'Add to cart', tabs: ['Shop', 'Wishlist', 'Orders', 'Profile'] }, plan: 'Store or booking site',
+  },
+  {
+    id: 'gym', kind: 'Fitness', brand: 'IronPulse', tagline: 'Strength classes and coaching. First class free.',
+    colors: { bg: '#0d0f0e', fg: '#eef5ef', accent: '#9be15d', soft: '#1b211c' }, font: 'display',
+    nav: ['Classes', 'Plans', 'Join'], cta: ['Book a free class', 'See plans'], listTitle: 'Membership',
+    items: [{ name: 'Monthly', meta: 'All classes', price: '₹1,999' }, { name: 'Quarterly', meta: '+1 PT session', price: '₹5,499' }, { name: 'Annual', meta: '+diet plan', price: '₹17,999' }],
+    app: { title: 'Today’s classes', action: 'Reserve spot', tabs: ['Classes', 'Progress', 'Plans', 'Profile'] }, plan: 'Business website + Mobile app',
+  },
+  {
+    id: 'folio', kind: 'Portfolio', brand: 'Ananya Rao', tagline: 'Product designer. I make complicated things feel simple.',
+    colors: { bg: '#fafaf7', fg: '#161616', accent: '#3b5bdb', soft: '#e9ecf6' }, font: 'sans',
+    nav: ['Work', 'About', 'Contact'], cta: ['View my work', 'Download CV'], listTitle: 'Selected work',
+    items: [{ name: 'Fintech onboarding', meta: 'Case study · UX research' }, { name: 'Clinic booking app', meta: 'Case study · Mobile' }, { name: 'Design system', meta: 'Components · Tokens' }],
+    app: { title: 'Work', action: 'Get in touch', tabs: ['Work', 'About', 'Notes', 'Contact'] }, plan: 'Personal portfolio',
+  },
+]
+
+/* ───────────────────────── Student project ideas ───────────────────────── */
+
+export const branches = ['All', 'CSE / IT', 'AI & ML', 'ECE / EEE', 'Mech / Civil'] as const
+export type Branch = (typeof branches)[number]
+
+export const studentIdeas: { title: string; branch: Exclude<Branch, 'All'>; level: 'Mini' | 'Major'; build: string; learn: string; stack: string[] }[] = [
+  { title: 'Campus marketplace app', branch: 'CSE / IT', level: 'Major', build: 'Students buy, sell and rent books and gear inside their college, with chat and verified college emails.', learn: 'Auth, REST APIs, real-time chat, mobile UI', stack: ['React Native', 'Spring Boot', 'PostgreSQL', 'WebSockets'] },
+  { title: 'Live college bus tracker', branch: 'CSE / IT', level: 'Major', build: 'Drivers share location from a phone; students see the bus on a map with an ETA.', learn: 'GPS, WebSockets, maps, Redis', stack: ['React', 'Spring Boot', 'Redis GEO', 'Leaflet'] },
+  { title: 'URL shortener that scales', branch: 'CSE / IT', level: 'Mini', build: 'Short links with click analytics, rate limiting and caching, load-tested.', learn: 'Hashing, caching, rate limits, load testing', stack: ['Spring Boot', 'Redis', 'PostgreSQL', 'k6'] },
+  { title: 'Expense splitter for hostels', branch: 'CSE / IT', level: 'Mini', build: 'Track shared expenses and settle up with the fewest payments.', learn: 'Graph algorithms, clean UI, PWA', stack: ['React', 'Node / Spring Boot', 'SQLite'] },
+  { title: 'Chatbot over your college notes', branch: 'AI & ML', level: 'Major', build: 'Upload PDFs of notes; ask questions and get answers with page citations.', learn: 'Embeddings, vector search, RAG, prompt design', stack: ['Spring AI / Python', 'pgvector', 'React'] },
+  { title: 'Crop disease detector', branch: 'AI & ML', level: 'Major', build: 'Photograph a leaf; an on-device model names the disease and suggests treatment.', learn: 'CNNs, transfer learning, TFLite on mobile', stack: ['Python', 'TensorFlow Lite', 'React Native'] },
+  { title: 'Resume–job matcher', branch: 'AI & ML', level: 'Mini', build: 'Scores a resume against a job description and explains the gaps.', learn: 'Text embeddings, similarity, explainability', stack: ['Python', 'Sentence embeddings', 'Streamlit'] },
+  { title: 'IoT home energy monitor', branch: 'ECE / EEE', level: 'Major', build: 'Current sensors report usage per appliance to a live dashboard with alerts.', learn: 'Sensors, MQTT, time-series data, dashboards', stack: ['ESP32', 'MQTT', 'Spring Boot', 'React'] },
+  { title: 'Smart irrigation controller', branch: 'ECE / EEE', level: 'Major', build: 'Soil-moisture sensors and weather data decide when to water; control from a phone.', learn: 'Embedded C, MQTT, rules engine, mobile app', stack: ['ESP32', 'MQTT', 'React Native'] },
+  { title: 'Cold-chain temperature logger', branch: 'ECE / EEE', level: 'Mini', build: 'Logs fridge or cold-box temperature and alerts on WhatsApp when it drifts.', learn: 'Sensor calibration, alerting, cloud basics', stack: ['ESP32', 'DS18B20', 'AWS IoT / Firebase'] },
+  { title: 'Machine vibration monitor', branch: 'Mech / Civil', level: 'Major', build: 'Accelerometer data flags abnormal vibration on a motor before it fails.', learn: 'Signal basics, FFT, predictive maintenance', stack: ['ESP32', 'MPU6050', 'Python', 'Dashboard'] },
+  { title: 'Site progress tracker app', branch: 'Mech / Civil', level: 'Mini', build: 'Engineers log daily progress with photos; owners see a timeline and delays.', learn: 'Mobile forms, image upload, reporting', stack: ['React Native', 'Firebase / Spring Boot'] },
 ]
 
 /* ───────────────────────── Blueprints (interactive system designs) ───────────────────────── */
@@ -393,59 +555,6 @@ export const blueprints: Blueprint[] = [
   },
 ]
 
-/* ───────────────────────── Services ───────────────────────── */
-
-export const services = [
-  {
-    id: 'mvp',
-    name: 'Full-stack MVP',
-    pitch: 'Idea to production on AWS, built to grow instead of being rewritten at the first customer.',
-    gets: ['Next.js / React front end', 'Spring Boot 3 API with auth & roles', 'PostgreSQL schema + migrations', 'Payments, email, file storage', 'CI/CD and infra as code'],
-    typical: '4–8 weeks',
-  },
-  {
-    id: 'scale',
-    name: 'Scale & performance rescue',
-    pitch: 'Slow pages, timeouts at peak, a database at 90% CPU. Find the real bottleneck and fix it.',
-    gets: ['Load test that reproduces the pain (k6)', 'Profiling, query plans, indexing', 'Caching and async offload', 'Capacity plan for the next 10×', 'Written report of what changed'],
-    typical: '1–3 weeks',
-  },
-  {
-    id: 'k8s',
-    name: 'Kubernetes & cloud migration',
-    pitch: 'From one hand-managed server to containers on EKS, with zero-downtime cutover.',
-    gets: ['Dockerised services', 'EKS cluster via Terraform', 'Helm charts + autoscaling', 'Secrets, IAM roles, network policies', 'Runbook and handover session'],
-    typical: '3–6 weeks',
-  },
-  {
-    id: 'cicd',
-    name: 'CI/CD & DevOps setup',
-    pitch: 'Deploys that are boring: every merge tested, scanned and shipped, with a one-click rollback.',
-    gets: ['GitHub Actions pipelines', 'Preview environments per PR', 'Image scanning + SAST', 'Canary / blue-green releases', 'Dashboards and alerts'],
-    typical: '1–2 weeks',
-  },
-  {
-    id: 'ai',
-    name: 'AI feature integration',
-    pitch: 'Document Q&A, assistants and summaries inside your existing product, safely.',
-    gets: ['RAG over your data with citations', 'Permission-aware retrieval', 'Streaming chat API + UI', 'Cost controls and caching', 'Evals so quality doesn’t drift'],
-    typical: '2–4 weeks',
-  },
-  {
-    id: 'retainer',
-    name: 'Fractional backend engineer',
-    pitch: 'A senior pair of hands on your backend and infrastructure every month, without a full-time hire.',
-    gets: ['Fixed monthly hours', 'Feature work + reviews', 'Infra and cost hygiene', 'Incident help in your hours', 'Monthly written summary'],
-    typical: 'Monthly',
-  },
-]
-
-export const engagement = [
-  { name: 'Fixed scope', text: 'Clear deliverables, fixed quote, paid by milestone.' },
-  { name: 'Sprint based', text: 'Two-week sprints with a demo at the end of each.' },
-  { name: 'Retainer', text: 'Reserved hours every month for ongoing work.' },
-]
-
 /* ───────────────────────── Process & standards ───────────────────────── */
 
 export const process = [
@@ -454,6 +563,14 @@ export const process = [
   { name: 'Build in sprints', text: 'Working software every week on a staging URL, with a written update.', out: 'Weekly demo' },
   { name: 'Launch', text: 'Load-tested, monitored, with alerts and a rollback plan rehearsed.', out: 'Go-live checklist' },
   { name: 'Handover', text: 'Runbooks, recorded walkthrough, and everything in your own accounts.', out: 'You own it all' },
+]
+
+export const basics = [
+  'Mobile-first and fast, checked with Lighthouse before launch',
+  'HTTPS, backups and uptime monitoring',
+  'SEO basics and Google Business Profile links',
+  'Your domain, your code, your accounts',
+  'A handover call and a short how-to video',
 ]
 
 export const standards = [
@@ -468,12 +585,13 @@ export const standards = [
 /* ───────────────────────── Stack ───────────────────────── */
 
 export const stack: { group: string; items: string[] }[] = [
-  { group: 'Front end', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
+  { group: 'Websites', items: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'SEO + Analytics', 'Razorpay · Stripe'] },
+  { group: 'Mobile', items: ['React Native', 'Expo', 'Push notifications', 'Offline storage', 'App Store · Play Store'] },
   { group: 'Back end', items: ['Java 21', 'Spring Boot 3', 'Spring Security · JWT · OAuth2', 'REST · WebSockets', 'Microservices'] },
   { group: 'Data', items: ['PostgreSQL / Aurora', 'Redis', 'DynamoDB', 'pgvector', 'SQL Server'] },
   { group: 'AWS', items: ['EKS · EC2 · Lambda', 'RDS · S3 · CloudFront', 'SQS · SNS', 'IAM · Secrets Manager', 'CloudWatch'] },
   { group: 'Platform', items: ['Docker', 'Kubernetes · Helm', 'Argo CD', 'Terraform', 'GitHub Actions'] },
-  { group: 'AI', items: ['Spring AI', 'RAG · embeddings', 'Vector search', 'LLM APIs', 'Structured outputs'] },
+  { group: 'AI & IoT', items: ['Spring AI', 'RAG · embeddings', 'Vector search', 'LLM APIs', 'ESP32 · MQTT'] },
 ]
 
 export const credentials = [
@@ -483,10 +601,12 @@ export const credentials = [
 ]
 
 export const faq = [
-  { q: 'How do you price a project?', a: 'After a short call I send a written scope with a fixed quote for fixed-scope work, or a sprint or monthly rate for ongoing work. Payments are tied to milestones you can see working.' },
-  { q: 'Who owns the code and the cloud account?', a: 'You do, from day one. Code lives in your GitHub organisation and infrastructure runs in your AWS account. I work with access you grant and can revoke.' },
-  { q: 'Can you work with my existing team or codebase?', a: 'Yes. Most work is adding to a product that already exists. I follow your conventions, open PRs for review and leave documentation behind.' },
-  { q: 'What time zone do you work in?', a: 'IST (UTC+5:30), from Hyderabad. You get a written update every day, a live demo every week, and calls scheduled in your working hours.' },
+  { q: 'Is the price really fixed?', a: 'Yes. After a short call you get a written scope and a fixed quote. If you add something later, I quote that separately before doing it, so there are no surprise bills.' },
+  { q: 'Can you build both the website and the mobile app?', a: 'Yes. Websites in React / Next.js and mobile apps in React Native for iOS and Android, sharing one backend so your data stays in one place.' },
+  { q: 'What happens after my site goes live?', a: 'You can take it over yourself, or stay on a care plan: backups, updates, uptime checks and small edits every month.' },
+  { q: 'I have a full-time job. Can we still build my startup?', a: 'That’s the usual case. You get an async written update every day, a short demo every week at a time that suits you, and decisions in writing so nothing waits on a meeting.' },
+  { q: 'Who owns the code and accounts?', a: 'You do, from day one: your domain, your GitHub, your hosting or AWS account. I work with access you grant and can revoke.' },
+  { q: 'Do you just make college projects for students?', a: 'No, and that protects you. We build it together: you write the code with guidance, so you understand it and can answer any viva question. I help with the idea, architecture, debugging and deployment.' },
+  { q: 'Do you work with clients outside India?', a: 'Yes. Prices switch to USD, calls happen in your hours, and payments go through standard international methods.' },
   { q: 'Will you sign an NDA?', a: 'Yes, before we discuss anything confidential.' },
-  { q: 'What happens after launch?', a: 'A handover session, runbooks for every alert, and an optional retainer for fixes, upgrades and new features.' },
 ]
