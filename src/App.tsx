@@ -1,19 +1,19 @@
 import { useCallback, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { viewers, type Project, type SectionId } from './data/portfolio'
+import { viewers, type Blueprint, type SectionId } from './data/portfolio'
 import Opening from './components/Opening'
 import ProfileSelect from './components/ProfileSelect'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Trailer from './components/Trailer'
-import Pilot from './components/Pilot'
-import Seasons from './components/Seasons'
-import Originals from './components/Originals'
-import ProjectModal from './components/ProjectModal'
-import { ComingSoon, Credits, Finale, Resume, Skills, TopTen } from './components/Rows'
+import SystemsLab from './components/SystemsLab'
+import Blueprints from './components/Blueprints'
+import BlueprintModal from './components/BlueprintModal'
+import Platform from './components/Platform'
+import { About, FAQ, Finale, Process, Resume, Services, Stack } from './components/Sections'
 
 type Id = (typeof viewers)[number]['id']
-const KEY = 'mahindra-series-viewer'
+const KEY = 'mahindra-series-viewer-v2'
 
 function stored(): Id | null {
   try {
@@ -27,9 +27,10 @@ function stored(): Id | null {
 export default function App() {
   const first = stored()
   const [stage, setStage] = useState<'opening' | 'profiles' | 'home'>(first ? 'home' : 'opening')
-  const [viewer, setViewer] = useState<Id>(first ?? 'recruiter')
+  const [viewer, setViewer] = useState<Id>(first ?? 'founder')
   const [trailer, setTrailer] = useState(false)
-  const [project, setProject] = useState<Project | null>(null)
+  const [open, setOpen] = useState<Blueprint | null>(null)
+  const [picked, setPicked] = useState('')
   const [toast, setToast] = useState('')
 
   const endOpening = useCallback(() => setStage('profiles'), [])
@@ -39,20 +40,23 @@ export default function App() {
     if (stage !== 'home') { window.scrollTo(0, 0); setStage('home') }
     else {
       const v = viewers.find((x) => x.id === id)!
-      setToast(`Now watching as ${v.name} — ${v.blurb.toLowerCase()}`)
+      setToast(`Now watching as ${v.name}: ${v.blurb.toLowerCase()} first`)
       window.scrollTo({ top: 0, behavior: 'smooth' })
       setTimeout(() => setToast(''), 2600)
     }
   }, [stage])
+  const closeTrailer = useCallback(() => setTrailer(false), [])
+  const closeModal = useCallback(() => setOpen(null), [])
 
   const sections: Record<SectionId, ReactNode> = {
-    pilot: <Pilot />,
-    seasons: <Seasons />,
-    originals: <Originals onOpen={setProject} />,
-    coming: <ComingSoon />,
-    top: <TopTen />,
-    skills: <Skills />,
-    credits: <Credits />,
+    lab: <SystemsLab />,
+    blueprints: <Blueprints onOpen={setOpen} />,
+    platform: <Platform />,
+    services: <Services onPick={setPicked} />,
+    process: <Process />,
+    stack: <Stack />,
+    about: <About />,
+    faq: <FAQ />,
     resume: <Resume />,
   }
   const order = viewers.find((v) => v.id === viewer)!.order
@@ -66,20 +70,21 @@ export default function App() {
 
       {stage === 'home' && (
         <>
+          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-bone focus:px-3 focus:py-2 focus:text-black">Skip to content</a>
           <Navbar viewer={viewer} onViewer={pick} />
-          <main>
+          <main id="main">
             <Hero onPlay={() => setTrailer(true)} />
-            <motion.div key={viewer} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative z-10 -mt-[6vh]">
+            <motion.div key={viewer} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative z-10">
               {order.map((id) => <div key={id}>{sections[id]}</div>)}
             </motion.div>
-            <Finale />
+            <Finale picked={picked} />
           </main>
         </>
       )}
 
       <AnimatePresence>
-        {trailer && <Trailer key="t" onClose={() => setTrailer(false)} />}
-        {project && <ProjectModal key="m" p={project} onClose={() => setProject(null)} />}
+        {trailer && <Trailer key="t" onClose={closeTrailer} />}
+        {open && <BlueprintModal key={open.id} b={open} onClose={closeModal} />}
         {toast && (
           <motion.div
             key="toast"

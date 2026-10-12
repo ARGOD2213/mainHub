@@ -6,8 +6,8 @@ type Id = (typeof viewers)[number]['id']
 
 export function ViewerGlyph({ id, size = 40 }: { id: Id; size?: number }) {
   const p = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
-  if (id === 'recruiter') return <svg {...p}><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18" /></svg>
-  if (id === 'engineer') return <svg {...p}><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>
+  if (id === 'hiring') return <svg {...p}><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18" /></svg>
+  if (id === 'cto') return <svg {...p}><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>
   return <svg {...p}><path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 12a12 12 0 016-8c2 0 5 0 5 0s0 3 0 5a12 12 0 01-8 6zM9 12l3 3M15 9h.01" /></svg>
 }
 
@@ -28,7 +28,7 @@ export default function ProfileSelect({ onPick }: { onPick: (id: Id) => void }) 
       >
         Who's watching?
       </motion.h2>
-      <p className="mt-3 text-center text-sm text-smoke">Pick a profile — it changes the order of the show, not the facts.</p>
+      <p className="mt-3 text-center text-sm text-smoke">Pick a profile. It changes the order of the show, not the facts.</p>
       <div className="mt-10 grid grid-cols-3 gap-4 sm:gap-10">
         {viewers.map((v, i) => (
           <motion.button

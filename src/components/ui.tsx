@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { motion } from 'framer-motion'
 import { EASE } from './Opening'
 
@@ -18,14 +18,56 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
 
 export function SectionHead({ kicker, title, note }: { kicker: string; title: string; note?: string }) {
   return (
-    <Reveal className="gutter mb-6 flex flex-wrap items-end justify-between gap-3">
+    <Reveal className="gutter mb-7 flex flex-wrap items-end justify-between gap-4">
       <div>
         <p className="mono mb-2 text-[11px] tracking-[0.35em] text-amber">{kicker}</p>
-        <h2 className="text-2xl font-bold text-bone sm:text-3xl">{title}</h2>
+        <h2 className="text-3xl font-bold text-bone [text-wrap:balance] sm:text-4xl">{title}</h2>
       </div>
-      {note && <p className="max-w-md text-sm text-smoke">{note}</p>}
+      {note && <p className="max-w-lg text-sm leading-relaxed text-smoke">{note}</p>}
     </Reveal>
   )
+}
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+
+/** Dialog behaviour: moves focus in, traps Tab, closes on Escape, locks page scroll, restores focus on close. */
+export function useDialog(ref: RefObject<HTMLElement | null>, onClose: () => void) {
+  const close = useRef(onClose)
+  close.current = onClose
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null
+    const el = ref.current
+    const first = el?.querySelector<HTMLElement>(FOCUSABLE)
+    first?.focus()
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); close.current(); return }
+      if (e.key !== 'Tab' || !el) return
+      const items = Array.from(el.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((n) => n.offsetParent !== null)
+      if (!items.length) return
+      const a = items[0], b = items[items.length - 1]
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); b.focus() }
+      else if (!e.shiftKey && document.activeElement === b) { e.preventDefault(); a.focus() }
+      else if (!el.contains(document.activeElement)) { e.preventDefault(); a.focus() }
+    }
+    window.addEventListener('keydown', key)
+    return () => {
+      window.removeEventListener('keydown', key)
+      document.body.style.overflow = prevOverflow
+      opener?.focus?.()
+    }
+  }, [ref])
+}
+
+export async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export const Arrow = ({ dir = 'right' }: { dir?: 'left' | 'right' }) => (

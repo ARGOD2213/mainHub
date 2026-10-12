@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDialog } from './ui'
 import { AnimatePresence, motion } from 'framer-motion'
-import { introSlides, profile } from '../data/portfolio'
+import { trailer as introSlides, profile } from '../data/portfolio'
 import { EASE } from './Opening'
 
 const DUR = 3800
@@ -20,17 +21,17 @@ export default function Trailer({ onClose }: { onClose: () => void }) {
     return () => clearTimeout(t)
   }, [i, paused, n, next])
 
+  const box = useRef<HTMLDivElement>(null)
+  useDialog(box, onClose)
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
     const key = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
       if (e.key === 'ArrowRight') next()
       if (e.key === 'ArrowLeft') prev()
-      if (e.key === ' ') { e.preventDefault(); setPaused((p) => !p) }
+      if (e.key === ' ' && (e.target as HTMLElement).tagName !== 'BUTTON') { e.preventDefault(); setPaused((p) => !p) }
     }
     window.addEventListener('keydown', key)
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', key) }
-  }, [onClose, next, prev])
+    return () => window.removeEventListener('keydown', key)
+  }, [next, prev])
 
   const s = introSlides[i]
   const last = i === n - 1
@@ -42,7 +43,9 @@ export default function Trailer({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       role="dialog"
+      aria-modal="true"
       aria-label="Trailer"
+      ref={box}
     >
       <div className="absolute inset-x-0 top-0 flex gap-1.5 p-4">
         {introSlides.map((_, k) => (
@@ -79,7 +82,7 @@ export default function Trailer({ onClose }: { onClose: () => void }) {
 
       {last && (
         <motion.div className="absolute bottom-[12vh] z-10 flex gap-3" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-          <a href="#contact" onClick={onClose} className="btn btn-play">Get in touch</a>
+          <a href="#contact" onClick={onClose} className="btn btn-play">Start a project</a>
           <a href={profile.resumePdf} download className="btn btn-ghost">Resume</a>
         </motion.div>
       )}

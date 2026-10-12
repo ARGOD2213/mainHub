@@ -2,18 +2,18 @@ import { useEffect, useRef } from 'react'
 
 /** Live "service mesh" behind the hero: nodes are services, glowing packets are requests. */
 const NODES = [
-  { id: 'client', x: 0.08, y: 0.5 },
-  { id: 'gateway', x: 0.28, y: 0.5 },
-  { id: 'auth · jwt', x: 0.45, y: 0.2 },
-  { id: 'payroll-svc', x: 0.5, y: 0.5 },
-  { id: 'rag-svc', x: 0.47, y: 0.8 },
-  { id: 'redis', x: 0.72, y: 0.3 },
-  { id: 'postgres', x: 0.76, y: 0.62 },
-  { id: 'pgvector', x: 0.7, y: 0.9 },
-  { id: 'sns', x: 0.93, y: 0.42 },
+  { id: 'users', x: 0.08, y: 0.5 },
+  { id: 'cloudfront', x: 0.27, y: 0.28 },
+  { id: 'alb · ingress', x: 0.28, y: 0.6 },
+  { id: 'api-pod ×12', x: 0.5, y: 0.45 },
+  { id: 'worker-pod ×4', x: 0.47, y: 0.82 },
+  { id: 'redis', x: 0.72, y: 0.22 },
+  { id: 'aurora', x: 0.76, y: 0.55 },
+  { id: 'sqs', x: 0.68, y: 0.86 },
+  { id: 's3', x: 0.93, y: 0.4 },
 ]
 const EDGES: [number, number][] = [
-  [0, 1], [1, 2], [1, 3], [1, 4], [3, 5], [3, 6], [4, 7], [4, 2], [3, 8], [2, 6],
+  [0, 1], [0, 2], [2, 3], [3, 5], [3, 6], [3, 7], [7, 4], [4, 6], [4, 8], [1, 8],
 ]
 
 type Packet = { e: number; t: number; v: number; hot: boolean }

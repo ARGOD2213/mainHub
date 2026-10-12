@@ -1,19 +1,31 @@
-# MAHINDRA — The Backend Series
+# MAHINDRA · The Scale Series
 
-Streaming-style portfolio for **Chintala Mahindra**, Java backend engineer (Spring Boot · Microservices · AI application integration).
+Freelance portfolio of **Chintala Mahindra**, full-stack & cloud engineer: system design, Spring Boot + React, AWS, Docker, Kubernetes and CI/CD.
 
-Opening sequence → "Who's watching?" (Recruiter / Engineer / Founder reorders sections) → billboard hero with a live service-mesh animation → Seasons & Episodes (career) → Originals (projects, each with an architecture diagram) → Top 10 stack → Skills → Certifications → Resume → To be continued.
+Live: https://main-hub-mu.vercel.app
+
+## What's inside
+
+- **Systems Lab**: an interactive scaling model. Push traffic, toggle autoscaling, CDN, Redis, a write queue and read replicas, and watch latency, errors, cost and the bottleneck move (`src/lib/sim.ts`).
+- **Originals**: six architectures (five reference blueprints + ARGUS, open source). Each opens into a clickable diagram with a live request trace, scaling stages, key decisions and failure modes.
+- **Platform**: a CI/CD pipeline you can run, including a failing canary with automatic rollback, plus Dockerfile, Kubernetes, GitHub Actions and Terraform starter configs.
+- **Services, process, standards, FAQ** and a **project brief builder** that pre-fills an email or WhatsApp message.
+- "Who's watching?" profiles (Founder / CTO / Agency) reorder the sections.
 
 ## Run
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # static site in dist/ — deploy to Vercel, Netlify or GitHub Pages
+npm run build    # static site in dist/
 ```
+
+Pushing to `main` deploys to Vercel automatically.
 
 ## Edit content
 
-Everything lives in **`src/data/portfolio.ts`**. Replace `public/Chintala_Mahindra_Resume.pdf` to update the resume.
+- Site copy, blueprints, services, FAQ: `src/data/portfolio.ts`
+- Pipeline stages and code samples: `src/data/configs.ts`
+- Resume source: `resume/resume.html` (after `npm install`, open it in Chrome → Print → Save as PDF, margins *None*, *Background graphics* on) and save over `public/Chintala_Mahindra_Resume.pdf`.
 
-Not affiliated with any streaming service.
+Blueprints are reference architectures, labelled as such on the site. Not affiliated with any streaming service.

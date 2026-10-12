@@ -5,12 +5,12 @@ import { ViewerGlyph } from './ProfileSelect'
 
 type Id = (typeof viewers)[number]['id']
 const LINKS = [
-  ['Home', '#top'],
-  ['Seasons', '#seasons'],
-  ['Originals', '#originals'],
-  ['Skills', '#skills'],
+  ['Lab', '#lab'],
+  ['Blueprints', '#blueprints'],
+  ['Platform', '#platform'],
+  ['Services', '#services'],
+  ['Process', '#process'],
   ['Resume', '#resume'],
-  ['Contact', '#contact'],
 ] as const
 
 export default function Navbar({ viewer, onViewer }: { viewer: Id; onViewer: (id: Id) => void }) {
@@ -39,7 +39,7 @@ export default function Navbar({ viewer, onViewer }: { viewer: Id; onViewer: (id
         ))}
       </nav>
       <div className="ml-auto flex items-center gap-3">
-        <a href="#contact" className="hidden rounded bg-amber px-3 py-1.5 text-xs font-bold text-black sm:inline-block">HIRE ME</a>
+        <a href="#contact" className="hidden rounded bg-amber px-3 py-1.5 text-xs font-bold text-black sm:inline-block">START A PROJECT</a>
         <div className="relative">
           <button
             onClick={() => setWho((s) => !s)}

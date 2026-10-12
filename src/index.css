@@ -71,3 +71,10 @@ body {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Systems Lab range */
+.lab-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 999px; background: linear-gradient(90deg, #3ec7a5, #ffb02e 60%, #ff4d5e); outline-offset: 6px; }
+.lab-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--color-bone); border: 3px solid var(--color-amber); cursor: grab; }
+.lab-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--color-bone); border: 3px solid var(--color-amber); cursor: grab; }
+.lab-range:disabled { opacity: .6; }
+details > summary::-webkit-details-marker { display: none; }
