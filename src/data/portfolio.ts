@@ -6,6 +6,8 @@
  *    No invented clients, users, revenue or performance numbers.
  *  - Showcase sites and apps are sample designs for made-up businesses, labelled as samples.
  *  - ARGUS is real and public (github.com/ARGOD2213/ARGUS); its content comes from that repo.
+ *  - TenantForge is built and public (github.com/ARGOD2213/tenantforge); every claim on its card maps to code and
+ *    tests there. Its AWS infrastructure is validated in CI but not running in a live account; don't say it is.
  *  - PRICES and timelines below are starting points YOU set. Edit them in `tracks` before publishing.
  */
 
@@ -236,11 +238,11 @@ export const blueprints: Blueprint[] = [
   {
     id: 'tenantforge',
     title: 'TenantForge',
-    tagline: 'Multi-tenant B2B SaaS platform',
+    tagline: 'Multi-tenant B2B SaaS platform (open source)',
     genre: 'SaaS · Multi-tenancy · Billing',
-    status: 'blueprint',
+    status: 'built',
     brief:
-      'A B2B SaaS serving hundreds of customer organisations on one platform. Every tenant’s data must stay isolated, a big tenant must never slow down a small one, enterprise customers want SSO, and billing has to just work.',
+      'Project 1, built and open source: a B2B SaaS platform for many customer organisations. Every tenant’s data is isolated by the database itself, a big tenant can’t slow down a small one, enterprise customers get SSO, and Stripe drives billing. 34 tests run against real Postgres, Redis, LocalStack and Keycloak on every push, and CI boots the whole stack and runs the demo. The AWS infrastructure is written and validated in CI, not running in a live account.',
     nodes: [
       { id: 'users', label: 'Tenant users', note: 'Each request carries a signed JWT with tenant_id and roles.', col: 0, row: 1, kind: 'client' },
       { id: 'stripe', label: 'Stripe', sub: 'webhooks', note: 'Subscription events arrive as signed webhooks.', col: 0, row: 2, kind: 'ext' },
@@ -248,11 +250,11 @@ export const blueprints: Blueprint[] = [
       { id: 'alb', label: 'ALB + WAF', note: 'TLS, OWASP rules, and a coarse rate limit before anything reaches the pods.', col: 1, row: 1, kind: 'edge' },
       { id: 'web', label: 'Next.js', sub: 'SSR pods', note: 'Server-rendered dashboard; calls the API with the user’s token.', col: 2, row: 0, kind: 'app' },
       { id: 'api', label: 'API pods', sub: 'Spring Boot 3', note: 'Stateless. Resolves the tenant from the JWT and sets it on the DB session before any query.', col: 2, row: 1, kind: 'app' },
-      { id: 'idp', label: 'Keycloak', sub: 'SSO · OIDC/SAML', note: 'Per-tenant identity providers; issues the JWTs the API verifies.', col: 2, row: 2, kind: 'ext' },
+      { id: 'idp', label: 'Keycloak', sub: 'SSO · OIDC/SAML', note: 'Issues the JWTs (tenant_id + roles) the API verifies; a tenant can bring its own OIDC or SAML identity provider.', col: 2, row: 2, kind: 'ext' },
       { id: 'redis', label: 'Redis', note: 'Per-tenant rate-limit buckets and hot config, keys prefixed by tenant.', col: 3, row: 0, kind: 'data' },
-      { id: 'pg', label: 'Aurora Postgres', sub: 'pooled tenants', note: 'Shared tables protected by Row-Level Security policies on tenant_id.', col: 3, row: 1, kind: 'data' },
+      { id: 'pg', label: 'Aurora Postgres', sub: 'pooled tenants', note: 'Shared tables protected by Row-Level Security (FORCE RLS, non-owner runtime role) on tenant_id.', col: 3, row: 1, kind: 'data' },
       { id: 'silo', label: 'Dedicated DB', sub: 'enterprise tier', note: 'Large tenants get their own database. Same code, routed by a tenant catalog.', col: 3, row: 2, kind: 'data' },
-      { id: 'sqs', label: 'SQS', note: 'Exports, emails, outbound webhooks — anything slow leaves the request path.', col: 4, row: 1, kind: 'async' },
+      { id: 'sqs', label: 'SQS', note: 'Exports and other slow jobs leave the request path; repeated failures land in a dead-letter queue.', col: 4, row: 1, kind: 'async' },
       { id: 'workers', label: 'Workers', sub: 'KEDA scaled', note: 'Scale on queue depth, down to zero overnight.', col: 5, row: 1, kind: 'async' },
       { id: 's3', label: 'S3', note: 'Tenant files under per-tenant prefixes, encrypted with KMS.', col: 5, row: 0, kind: 'data' },
     ],
@@ -263,15 +265,15 @@ export const blueprints: Blueprint[] = [
         { node: 'users', text: 'Browser requests /invoices with a JWT for tenant acme.' },
         { node: 'cdn', text: 'Static shell comes from the edge cache.' },
         { node: 'web', text: 'Next.js renders the page and calls the API server-side.' },
-        { node: 'api', text: 'API verifies the token and runs SET app.tenant = \'acme\' on its DB session.' },
+        { node: 'api', text: 'API verifies the token and binds the connection with set_config(\'app.tenant_id\', …).' },
         { node: 'redis', text: 'Token bucket for acme has room: request continues.' },
         { node: 'pg', text: 'Row-Level Security returns only acme’s rows, even if the query forgot a WHERE clause.' },
       ],
     },
     stages: [
-      { name: 'Launch', text: 'One region, two or three API pods, a single Aurora instance, all tenants pooled behind RLS.' },
-      { name: 'Growth', text: 'Redis for rate limits and hot reads, an Aurora reader, KEDA-scaled workers, per-tenant dashboards.' },
-      { name: 'Scale', text: 'Enterprise tenants moved to dedicated databases through the tenant catalog; multi-AZ everything.' },
+      { name: 'Isolation core', text: 'RLS with FORCE and a non-owner runtime role, tenant-bound connections, pooled/silo routing from a tenant catalog, migrations per database. Proven against real Postgres.' },
+      { name: 'Product', text: 'Per-plan Redis token buckets, Keycloak SSO with per-tenant IdPs, idempotent Stripe webhooks, SQS exports to S3 with KMS, a Next.js dashboard, per-tenant metrics.' },
+      { name: 'Platform', text: 'Terraform for VPC, EKS, Aurora pooled and silo clusters, Redis and WAF; Kustomize, KEDA and Argo CD; CI that boots the stack and runs the demo on every push.' },
     ],
     decisions: [
       { title: 'Isolation enforced by Postgres RLS', why: 'The database refuses cross-tenant rows, so one missed filter in code cannot leak data.', tradeoff: 'Every pooled connection must set and reset the tenant; tests check it on each repository.' },
@@ -283,8 +285,9 @@ export const blueprints: Blueprint[] = [
       { what: 'Migration locks a big table', fix: 'Expand-and-contract migrations with Flyway and CREATE INDEX CONCURRENTLY.' },
       { what: 'Stripe sends the same webhook twice', fix: 'Processed event ids are stored; duplicates are acknowledged and skipped.' },
     ],
-    stack: ['Next.js', 'Spring Boot 3', 'Aurora PostgreSQL', 'Redis', 'SQS', 'Keycloak', 'Stripe'],
-    runsOn: ['EKS', 'KEDA', 'Terraform', 'Argo CD', 'OpenTelemetry'],
+    stack: ['Java 21', 'Spring Boot 3', 'Next.js', 'PostgreSQL 16 / Aurora', 'Redis', 'SQS', 'S3 + KMS', 'Keycloak', 'Stripe'],
+    runsOn: ['EKS', 'KEDA', 'Terraform', 'Argo CD', 'OpenTelemetry', 'Testcontainers', 'GitHub Actions'],
+    github: 'https://github.com/ARGOD2213/tenantforge',
     hue: ['#1b0d02', '#a34a06', '#ff7a1a'],
   },
   {
@@ -597,7 +600,7 @@ export const stack: { group: string; items: string[] }[] = [
 export const credentials = [
   'AWS Certified Cloud Practitioner (CLF-C02)',
   'B.Tech, Electronics & Communication — VIT Vellore',
-  'Open source: ARGUS on GitHub',
+  'Open source: TenantForge and ARGUS on GitHub',
 ]
 
 export const faq = [
