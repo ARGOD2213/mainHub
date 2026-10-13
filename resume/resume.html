@@ -204,13 +204,11 @@
   <div class="body">
     <div class="main">
       <section>
-        <h2>System design case studies <small>REFERENCE ARCHITECTURES</small></h2>
-        <p class="sub" style="margin-top:-.6mm">Designs I offer clients, each with an interactive diagram on the portfolio.</p>
-        <div class="cases">
-          <div class="case"><div class="t">SwiftCart Flash</div><div class="k">Flash-sale commerce</div><p>Waiting room for spikes; atomic Redis inventory with timed holds so nothing oversells; idempotent checkout; pre-scaling and k6 rehearsals.</p></div>
-          <div class="case"><div class="t">LedgerLine</div><div class="k">Payments &amp; ledger</div><p>Double-entry, append-only journal; serializable transfers; idempotency keys end to end; transactional outbox; daily reconciliation.</p></div>
-          <div class="case"><div class="t">RouteLive</div><div class="k">Real-time tracking &amp; dispatch</div><p>Rider-partitioned location stream; Redis GEO dispatch; stateless WebSocket gateways with pub/sub fan-out; PostGIS history.</p></div>
-          <div class="case"><div class="t">DocMind</div><div class="k">Permission-aware RAG</div><p>Permission filter inside the vector query; cite-or-decline answers; semantic cache; per-team token budgets; evals gate prompt changes in CI.</p></div>
+        <h2>System design case studies <small>INTERACTIVE ON THE PORTFOLIO</small></h2>
+        <div class="cases" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="case"><div class="t">LedgerLine</div><div class="k">Payments &amp; ledger</div><p>Double-entry, append-only journal; idempotent transfers; transactional outbox; daily reconciliation.</p></div>
+          <div class="case"><div class="t">RouteLive</div><div class="k">Real-time dispatch</div><p>Partitioned location stream; Redis GEO dispatch; WebSocket fan-out; PostGIS history.</p></div>
+          <div class="case"><div class="t">DocMind</div><div class="k">Permission-aware RAG</div><p>Permission filter inside the vector query; cite-or-decline answers; evals gate prompts in CI.</p></div>
         </div>
       </section>
 
@@ -223,6 +221,15 @@
             <li>Tenant isolation enforced by <b>Postgres Row-Level Security</b> (FORCE RLS, non-owner role); <b>pool-then-silo</b> tenancy routed by a tenant catalog, migrations per database.</li>
             <li><b>Per-tenant rate limits</b> in Redis (429 + Retry-After); Keycloak SSO with tenant/role claims and per-tenant OIDC/SAML; <b>idempotent Stripe webhooks</b>.</li>
             <li><b>SQS exports on KEDA-scaled workers</b>, S3 per-tenant prefixes with KMS; Terraform for EKS and Aurora; 34 Testcontainers tests in CI.</li>
+          </ul>
+        </div>
+        <div class="proj">
+          <div class="job-head"><b>Project 2 · SwiftCart Flash — Flash-sale commerce platform <span class="tag ok">OPEN SOURCE</span></b><span class="when">2026</span></div>
+          <div class="tech">Java 21 · Spring Boot 3 · Next.js · Redis + Lua · Aurora PostgreSQL · SQS FIFO · Razorpay / Stripe · EKS · KEDA · CloudFront + WAF · Terraform · github.com/ARGOD2213/swiftcart-flash</div>
+          <ul>
+            <li><b>Atomic Redis/Lua inventory</b> with timed holds and per-customer and per-phone limits; a <b>waiting room</b> with signed entry tokens; stock rebuilt from the order log if Redis is lost.</li>
+            <li><b>Charge exactly once</b>: idempotent checkout, verified, de-duplicated Razorpay/Stripe webhooks, late-payment rescue or refund, a reconciler, outbox to an SQS FIFO worker.</li>
+            <li>99 Testcontainers tests; CI runs a <b>k6 drop (1,500 shoppers, 300 pairs)</b> and audits it: no oversell, no double charge.</li>
           </ul>
         </div>
         <div class="proj">
@@ -246,8 +253,7 @@
           <div class="job-head"><b>Digital Library Platform</b><span class="when">2025 – PRESENT</span></div>
           <div class="tech">Spring Boot 3 · Java 21 · React · PostgreSQL · Redis · S3 · SES/SNS · Docker · AWS</div>
           <ul>
-            <li>REST APIs with Spring Data JPA and <b>Flyway</b>; role-based workflows for readers, vendors and admins; JWT, <b>Redis caching</b>, S3 files, SES/SNS.</li>
-            <li>Docker Compose on AWS EC2, deployed by <b>GitHub Actions CI/CD</b>.</li>
+            <li>REST APIs with JPA and <b>Flyway</b>; role-based workflows for readers, vendors and admins; JWT, <b>Redis caching</b>, S3, SES/SNS; Docker on EC2 via <b>GitHub Actions</b>.</li>
           </ul>
         </div>
       </section>

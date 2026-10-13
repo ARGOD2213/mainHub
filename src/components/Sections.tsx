@@ -259,7 +259,7 @@ export function Finale({ picked }: { picked: BriefId | '' }) {
 
         <footer className="mono mt-20 flex flex-col items-center justify-between gap-2 border-t border-line pt-6 text-[11px] text-smoke sm:flex-row">
           <span>© {new Date().getFullYear()} {profile.name} · {profile.location}</span>
-          <span>Blueprints are reference designs; TenantForge and ARGUS are built and open source. A personal portfolio styled like a series; not affiliated with any streaming service.</span>
+          <span>Blueprints are reference designs; TenantForge, SwiftCart Flash and ARGUS are built and open source. A personal portfolio styled like a series; not affiliated with any streaming service.</span>
         </footer>
       </div>
     </section>
