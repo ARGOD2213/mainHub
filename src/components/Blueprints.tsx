@@ -55,7 +55,7 @@ export default function Blueprints({ onOpen }: { onOpen: (b: Blueprint) => void 
       <SectionHead
         kicker="ORIGINALS · SYSTEM DESIGN"
         title="Architectures I design and build"
-        note="Open any title for an interactive diagram: click a component, trace a live request, see how it scales and what happens when parts fail. Blueprints are reference designs; ARGUS is shipped and open source."
+        note="Open any title for an interactive diagram: click a component, trace a live request, see how it scales and what happens when parts fail. Blueprints are reference designs; TenantForge and ARGUS are built and open source."
       />
       <div className="group/rail relative">
         <div ref={rail} className="no-scrollbar gutter flex snap-x gap-4 overflow-x-auto pb-4">
